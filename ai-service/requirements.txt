@@ -1,0 +1,35 @@
+# LabelCheck AI/CV service
+#
+# OCR engine choice is controlled by OCR_ENGINE in ai-service/.env
+# ("paddleocr" or "tesseract"). Both are listed below so either works out
+# of the box; see ai-service/README.md for the trade-offs and exact Windows
+# setup steps for each.
+
+fastapi==0.111.0
+uvicorn[standard]==0.30.1
+python-multipart==0.0.9
+python-dotenv==1.0.1
+pydantic==2.8.2
+pydantic-settings==2.3.4
+
+# Image processing / computer vision
+opencv-python-headless==4.10.0.84
+numpy==1.26.4
+Pillow==10.4.0
+
+# Barcode decoding (pure-Python wheel on Windows — bundles the zbar DLLs,
+# no separate system install required)
+pyzbar==0.1.9
+
+# OCR engine: PaddleOCR (recommended primary option — brief §3)
+paddlepaddle==2.6.2
+paddleocr==2.7.3
+
+# OCR engine: Tesseract (lighter Python footprint; requires installing the
+# Tesseract-OCR binary separately — see ai-service/README.md). Only used
+# when OCR_ENGINE=tesseract.
+pytesseract==0.3.13
+
+# Testing
+pytest==8.2.2
+httpx==0.27.0

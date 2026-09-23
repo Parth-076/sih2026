@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+**/node_modules/
+venv/
+**/venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+
+# Build output
+dist/
+build/
+**/dist/
+**/build/
+
+# Env files
+.env
+**/.env
+!.env.example
+!**/.env.example
+
+# Uploads / generated data (keep folder, ignore contents)
+uploads/*
+!uploads/.gitkeep
+reports/*
+!reports/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test artifacts
+.test-uploads/
+.test-reports/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+Thumbs.db
+
+# Database
+*.sqlite
+
+# Test coverage
+coverage/
+.pytest_cache/
