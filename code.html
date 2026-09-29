@@ -1,0 +1,2279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+  <meta content="mobile_tab" name="shell-type"/>
+  <title>FoodTrace AI & Legal Metrology Inspector Portal</title>
+  
+  <!-- Google Fonts: IBM Plex Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+
+  <style>
+    @layer base {
+      html, body {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f9fc;
+        font-family: 'Inter', sans-serif;
+      }
+      body {
+        overscroll-behavior-y: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .font-heading {
+        font-family: 'IBM Plex Sans', sans-serif;
+      }
+      .pb-safe {
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      .pt-safe {
+        padding-top: env(safe-area-inset-top, 0px);
+      }
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .tnum {
+      font-variant-numeric: tabular-nums;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.15); opacity: 0.4; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .pulse-ring {
+      animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  </style>
+
+  <!-- Tailwind CSS CDN with Official Federal Design Tokens -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface": "#f7f9fc",
+            "surface-dim": "#d8dadd",
+            "surface-bright": "#f7f9fc",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f2f4f7",
+            "surface-container": "#eceef1",
+            "surface-container-high": "#e6e8eb",
+            "surface-container-highest": "#e0e3e6",
+            "on-surface": "#191c1e",
+            "on-surface-variant": "#42474e",
+            "outline": "#73777f",
+            "outline-variant": "#c2c7cf",
+            "primary": "#002541",
+            "primary-container": "#123b5d",
+            "on-primary": "#ffffff",
+            "on-primary-container": "#82a5cd",
+            "secondary": "#0261a2",
+            "secondary-container": "#76b8fe",
+            "on-secondary": "#ffffff",
+            "on-secondary-container": "#00487a",
+            "tertiary": "#002924",
+            "tertiary-container": "#00413a",
+            "tertiary-fixed": "#8df5e4",
+            "on-tertiary": "#ffffff",
+            "on-tertiary-container": "#49b3a4",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "on-error": "#ffffff",
+            "on-error-container": "#93000a",
+            "warning": "#f9a825",
+            "warning-container": "#fff8e1",
+            "on-warning": "#b78103"
+          },
+          fontFamily: {
+            heading: ["IBM Plex Sans", "sans-serif"],
+            body: ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "sm": "0.125rem",
+            "DEFAULT": "0.25rem",
+            "md": "0.375rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1rem"
+          }
+        }
+      }
+    };
+  </script>
+</head>
+
+<body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen">
+  
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="fixed top-4 right-4 z-[9999] flex flex-col gap-2 max-w-sm pointer-events-none"></div>
+
+  <!-- FIXED HEADER: Official Government Federal Masthead -->
+  <header class="fixed top-0 w-full z-50 pt-safe bg-primary-container text-on-primary shadow-md">
+    <div class="h-24 px-4 flex flex-col justify-center gap-1">
+      <div class="flex items-center justify-between gap-3">
+        <!-- Logo & Agency Identity -->
+        <div class="flex items-center gap-2.5 min-w-0 flex-1">
+          <img alt="FoodTrace AI Official Emblem" class="h-9 w-auto object-contain shrink-0" 
+               src="https://lh3.googleusercontent.com/aida-public/AB6AXuAO00zDfP5wXTEsoWJI0si7PpA96Jx3uQR7AXrbVwbtJuI2pUITskMNJiRNcoySGovKqQbEK70RVj3oZ2FfctYRkKErgatRGMko8BEZ2boMwPJCVk04jRYH9BTEO9nZ4PFm7SIEsIsX9dUQJ4aHcpqid3s93BfrUFQxJkx3JwBrPECe-7saEHs6a-cgKAqmJ287N6P2rhnq7zJt2VtOvNRye-F0Q8xAHKBqIyAxkIK1Mw0crPhCAxE"/>
+          <div class="flex flex-col min-w-0 leading-tight">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="font-heading text-lg font-bold text-on-primary tracking-tight truncate">LabelCheck / FoodTrace AI</span>
+              <span class="px-1.5 py-0.5 rounded text-[9px] uppercase font-bold tracking-widest bg-secondary text-on-secondary">GOVT OF INDIA</span>
+            </div>
+            <span class="text-xs text-on-primary-container truncate font-medium">Legal Metrology & Food Safety Digital Inspector</span>
+          </div>
+        </div>
+
+        <!-- Right Controls: Backend Status Pill + User Role Switcher -->
+        <div class="flex items-center gap-2 shrink-0">
+          <!-- Backend Connection Indicator Pill -->
+          <button id="backendStatusPill" onclick="toggleBackendSettingsModal()" 
+                  class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-primary/70 hover:bg-primary transition text-on-primary border border-secondary-container/30"
+                  title="Click to check or configure API backend">
+            <span id="backendPingDot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span id="backendStatusText" class="hidden sm:inline text-[11px]">API: Checking…</span>
+          </button>
+
+          <!-- User Role Pill Dropdown -->
+          <div class="relative">
+            <button id="userMenuBtn" onclick="toggleUserDropdown()" class="flex items-center gap-1.5 p-1 rounded-lg hover:bg-primary/50 transition">
+              <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ring-1 ring-secondary-container">
+                <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+              </div>
+              <div class="hidden md:flex flex-col text-left">
+                <span id="headerUserName" class="text-xs font-bold text-on-primary leading-tight truncate max-w-[100px]">R. Sharma</span>
+                <span id="headerUserRole" class="text-[10px] text-secondary-container uppercase font-semibold">INSPECTOR</span>
+              </div>
+              <span class="material-symbols-outlined text-[16px] text-on-primary-container">arrow_drop_down</span>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div id="userDropdown" class="hidden absolute right-0 mt-2 w-56 rounded-xl bg-surface-container-lowest text-on-surface shadow-xl border border-surface-container-high py-2 z-50">
+              <div class="px-4 py-2 border-b border-surface-container-high">
+                <p class="text-xs text-on-surface-variant">Active Inspector Account</p>
+                <p id="dropdownUserName" class="text-sm font-bold text-on-surface">Rajesh Sharma</p>
+                <p id="dropdownUserRole" class="text-[11px] font-bold text-secondary uppercase">Food Safety Officer #MH-41101</p>
+              </div>
+              <div class="px-2 py-1">
+                <p class="px-2 py-1 text-[10px] uppercase font-bold text-outline">Switch Demo Persona</p>
+                <button onclick="switchRole('INSPECTOR')" class="w-full text-left px-3 py-1.5 rounded-lg text-xs hover:bg-surface-container flex items-center justify-between">
+                  <span>Inspector (Rajesh Sharma)</span>
+                  <span class="text-[10px] bg-secondary-container/40 text-on-secondary-container px-1 rounded font-bold">Field</span>
+                </button>
+                <button onclick="switchRole('OFFICER')" class="w-full text-left px-3 py-1.5 rounded-lg text-xs hover:bg-surface-container flex items-center justify-between">
+                  <span>Officer (Meera Iyer)</span>
+                  <span class="text-[10px] bg-emerald-100 text-emerald-800 px-1 rounded font-bold">Review</span>
+                </button>
+                <button onclick="switchRole('ADMIN')" class="w-full text-left px-3 py-1.5 rounded-lg text-xs hover:bg-surface-container flex items-center justify-between">
+                  <span>Admin (Vikram Malhotra)</span>
+                  <span class="text-[10px] bg-purple-100 text-purple-800 px-1 rounded font-bold">Rules</span>
+                </button>
+              </div>
+              <div class="border-t border-surface-container-high pt-1 px-2">
+                <button onclick="switchTab('inspector-profile'); toggleUserDropdown();" class="w-full text-left px-3 py-1.5 rounded-lg text-xs text-on-surface-variant hover:bg-surface-container flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[16px]">settings</span>
+                  <span>System Diagnostics & Settings</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-Bar: Location + Field Lock Status -->
+      <div class="flex items-center justify-between pt-0.5 text-on-primary-container text-xs">
+        <div class="flex items-center gap-1">
+          <span class="material-symbols-outlined text-[15px] text-secondary-container">location_on</span>
+          <span class="truncate">Pune Division (APMC Yard & Kolhapur Corridor)</span>
+        </div>
+        <div class="flex items-center gap-1 bg-primary/40 px-2 py-0.5 rounded text-[11px] font-medium tracking-wide text-primary-fixed">
+          <span class="material-symbols-outlined text-[13px] text-emerald-400">verified_user</span>
+          <span>Legal Metrology Act 2009 / PCR 2011</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN VIEWPORT CONTAINER -->
+  <main class="flex-1 flex flex-col relative w-full pt-28 pb-24 bg-surface max-w-5xl mx-auto px-3 sm:px-4">
+    
+    <!-- ========================================== -->
+    <!-- TAB 1: DASHBOARD VIEW                     -->
+    <!-- ========================================== -->
+    <div id="view-dashboard" class="view-tab flex flex-col w-full gap-4">
+      
+      <!-- Field Mode Active Ribbon -->
+      <section>
+        <div class="bg-primary-container text-on-primary rounded-xl p-3.5 shadow-sm relative overflow-hidden flex items-center justify-between">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="relative flex h-2.5 w-2.5 shrink-0">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-container opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-secondary-container"></span>
+            </span>
+            <div class="flex flex-col min-w-0">
+              <span class="text-[11px] uppercase tracking-wider text-secondary-container truncate font-bold font-heading">Field Inspection Mode Active</span>
+              <span class="text-xs text-on-primary truncate">Corridor Duty: Sangli-Kolhapur Food Processing Units • GPS Locked</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-1 bg-primary/60 px-2.5 py-1 rounded text-primary-fixed shrink-0">
+            <span class="material-symbols-outlined text-[16px]">sensors</span>
+            <span class="text-[10px] uppercase font-bold tracking-wider">Sync: Online</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Inspector Greeting & Quota Status -->
+      <section class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container-high">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex flex-col min-w-0">
+            <div class="flex items-center gap-1.5 text-secondary mb-0.5">
+              <span class="material-symbols-outlined text-[18px]">verified</span>
+              <span id="dashboardBadgeLine" class="text-xs font-bold uppercase tracking-wider font-heading">Food Safety Officer #MH-41101</span>
+            </div>
+            <h1 id="dashboardGreeting" class="text-xl sm:text-2xl font-bold font-heading text-on-surface tracking-tight">Good Morning, Inspector Rajesh</h1>
+            <p class="text-xs text-on-surface-variant mt-0.5">Role Scoped: Packaged Commodity Declarations & Labeling Verification</p>
+          </div>
+          <button id="refreshDashboardBtn" onclick="refreshDashboardData()" aria-label="Refresh Dashboard" 
+                  class="w-10 h-10 rounded-xl bg-surface-container-high text-on-surface-variant flex items-center justify-center shrink-0 active:scale-95 transition-transform" 
+                  title="Reload live metrics from backend">
+            <span class="material-symbols-outlined text-[20px] transition-transform duration-500" id="refreshIcon">refresh</span>
+          </button>
+        </div>
+
+        <div class="mt-3 pt-2 border-t border-surface-container-high flex flex-wrap items-center justify-between text-on-surface-variant text-xs gap-2">
+          <div class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px] text-secondary">schedule</span>
+            <span class="font-semibold text-on-surface">Duty Shift: 07:00 - 16:30 IST</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px] text-tertiary-container">fact_check</span>
+            <span id="shiftQuotaText" class="font-semibold text-on-surface">Audit Target: 24/30 Batches</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6-Stage Forensic Pipeline Launch Bar -->
+      <section class="bg-primary text-on-primary rounded-xl p-4 shadow-md relative overflow-hidden">
+        <div class="flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-secondary-fixed text-[22px]">document_scanner</span>
+              <span class="font-heading text-sm font-bold text-on-primary">Forensic Compliance Intake Pipeline</span>
+            </div>
+            <span class="bg-secondary px-2 py-0.5 rounded text-[10px] uppercase font-bold text-on-secondary">Legal Metrology Standard</span>
+          </div>
+
+          <!-- 6-Stage Visual Stepper -->
+          <div class="w-full bg-primary-container/90 rounded-lg p-2.5">
+            <div class="flex items-center justify-between px-1">
+              <div class="flex flex-col items-center">
+                <span class="w-6 h-6 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[11px] font-bold flex items-center justify-center shadow-sm">1</span>
+                <span class="text-[9px] uppercase tracking-wider text-secondary-fixed mt-1 font-bold">Scan</span>
+              </div>
+              <div class="h-0.5 flex-1 bg-secondary-fixed/50 mx-1"></div>
+              <div class="flex flex-col items-center">
+                <span class="w-6 h-6 rounded-full bg-primary text-on-primary-container text-[11px] font-bold flex items-center justify-center">2</span>
+                <span class="text-[9px] uppercase tracking-wider text-on-primary-container mt-1">Extract</span>
+              </div>
+              <div class="h-0.5 flex-1 bg-primary-container mx-1"></div>
+              <div class="flex flex-col items-center">
+                <span class="w-6 h-6 rounded-full bg-primary text-on-primary-container text-[11px] font-bold flex items-center justify-center">3</span>
+                <span class="text-[9px] uppercase tracking-wider text-on-primary-container mt-1">Verify</span>
+              </div>
+              <div class="h-0.5 flex-1 bg-primary-container mx-1"></div>
+              <div class="flex flex-col items-center">
+                <span class="w-6 h-6 rounded-full bg-primary text-on-primary-container text-[11px] font-bold flex items-center justify-center">4</span>
+                <span class="text-[9px] uppercase tracking-wider text-on-primary-container mt-1">Trace</span>
+              </div>
+              <div class="h-0.5 flex-1 bg-primary-container mx-1"></div>
+              <div class="flex flex-col items-center">
+                <span class="w-6 h-6 rounded-full bg-primary text-on-primary-container text-[11px] font-bold flex items-center justify-center">5</span>
+                <span class="text-[9px] uppercase tracking-wider text-on-primary-container mt-1">Inspect</span>
+              </div>
+              <div class="h-0.5 flex-1 bg-primary-container mx-1"></div>
+              <div class="flex flex-col items-center">
+                <span class="w-6 h-6 rounded-full bg-primary text-on-primary-container text-[11px] font-bold flex items-center justify-center">6</span>
+                <span class="text-[9px] uppercase tracking-wider text-on-primary-container mt-1">Report</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Launch Button -->
+          <button onclick="switchTab('scan-inspection')" 
+                  class="w-full h-11 bg-secondary hover:bg-secondary/90 text-on-secondary rounded-lg font-heading text-sm font-bold flex items-center justify-center gap-2 shadow transition active:scale-[0.99]">
+            <span class="material-symbols-outlined text-[20px]">qr_code_scanner</span>
+            <span>Launch New Package Inspection</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- KPI Metric Cards Grid -->
+      <section>
+        <div class="flex items-center justify-between mb-2">
+          <span class="font-heading text-xs uppercase font-bold text-on-surface tracking-wider">Live Inspection Metrics</span>
+          <span id="metricsDateLabel" class="text-xs text-secondary font-semibold font-heading">Current Cycle</span>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <!-- Card 1: Total Inspections -->
+          <div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-surface-container-high flex flex-col justify-between">
+            <div class="flex items-center justify-between text-on-surface-variant">
+              <span class="text-[11px] font-bold uppercase tracking-wider font-heading">Total Audits</span>
+              <span class="material-symbols-outlined text-[18px] text-secondary">fact_check</span>
+            </div>
+            <div class="mt-2">
+              <div id="statTotal" class="text-2xl font-bold text-on-surface font-heading tnum leading-none">24</div>
+              <div class="flex items-center gap-1 mt-1 text-emerald-700 text-[11px] font-medium">
+                <span class="material-symbols-outlined text-[13px]">trending_up</span>
+                <span>Active Ledger</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Verified Compliant -->
+          <div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-surface-container-high flex flex-col justify-between">
+            <div class="flex items-center justify-between text-on-surface-variant">
+              <span class="text-[11px] font-bold uppercase tracking-wider font-heading">Compliant</span>
+              <span class="material-symbols-outlined text-[18px] text-emerald-600">check_circle</span>
+            </div>
+            <div class="mt-2">
+              <div id="statCompliant" class="text-2xl font-bold text-emerald-700 font-heading tnum leading-none">18</div>
+              <div class="mt-1 inline-flex items-center px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase">
+                Passed PCR-2011
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Review Required -->
+          <div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-surface-container-high flex flex-col justify-between">
+            <div class="flex items-center justify-between text-on-surface-variant">
+              <span class="text-[11px] font-bold uppercase tracking-wider font-heading">Review Req.</span>
+              <span class="material-symbols-outlined text-[18px] text-warning">pending_actions</span>
+            </div>
+            <div class="mt-2">
+              <div id="statReview" class="text-2xl font-bold text-amber-700 font-heading tnum leading-none">03</div>
+              <div class="mt-1 inline-flex items-center px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 text-[10px] font-bold uppercase">
+                Human-in-Loop
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Non-Compliant / Flagged -->
+          <div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-surface-container-high flex flex-col justify-between">
+            <div class="flex items-center justify-between text-on-surface-variant">
+              <span class="text-[11px] font-bold uppercase tracking-wider font-heading">Non-Compliant</span>
+              <span class="material-symbols-outlined text-[18px] text-error">dangerous</span>
+            </div>
+            <div class="mt-2">
+              <div id="statNonCompliant" class="text-2xl font-bold text-error font-heading tnum leading-none">03</div>
+              <div class="mt-1 inline-flex items-center px-1.5 py-0.2 rounded bg-error-container text-on-error-container text-[10px] font-bold uppercase">
+                Violations
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compliance Rate Score Gauge -->
+        <div class="mt-2.5 bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-surface-container-high flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="relative w-12 h-12 shrink-0 flex items-center justify-center">
+              <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                <path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+                <path id="gaugePath" class="text-secondary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="86, 100" stroke-linecap="round" stroke-width="3.5"></path>
+              </svg>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <span id="complianceRateText" class="font-heading text-xs font-bold text-on-surface">86%</span>
+              </div>
+            </div>
+            <div class="flex flex-col min-w-0">
+              <span class="font-heading text-sm font-bold text-on-surface">Division Compliance Index</span>
+              <p class="text-xs text-on-surface-variant truncate">Evaluated across mandatory Legal Metrology rule dimensions</p>
+            </div>
+          </div>
+          <div class="text-right shrink-0">
+            <span class="px-2.5 py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-heading text-xs font-bold uppercase">Grade A</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Active Field Alerts (Sourced from Real Scenarios) -->
+      <section>
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-error text-[18px]">notifications_active</span>
+            <span class="font-heading text-xs font-bold text-on-surface uppercase tracking-wide">Active Compliance Alerts</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-heading text-[10px] font-bold">2 Action Required</span>
+        </div>
+
+        <div class="flex flex-col gap-2.5">
+          <!-- Alert 1: Chatpata Namkeen MRP Inconsistency -->
+          <div class="bg-surface-container-lowest rounded-xl p-3 shadow-sm border-l-4 border-error border-y border-r border-surface-container-high flex flex-col gap-2">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-start gap-2.5 min-w-0">
+                <span class="w-7 h-7 rounded-lg bg-error-container text-on-error-container flex items-center justify-center shrink-0 mt-0.5">
+                  <span class="material-symbols-outlined text-[16px]">priority_high</span>
+                </span>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="text-[11px] font-bold text-error uppercase tracking-wider font-heading">MRP Discrepancy (Rule LM-MRP-CONSISTENCY)</span>
+                    <span class="text-xs text-on-surface-variant">• Barcode: 8901030123471</span>
+                  </div>
+                  <h3 class="font-heading text-sm font-bold text-on-surface mt-0.5 truncate">Chatpata Masala Namkeen 200g</h3>
+                  <p class="text-xs text-on-surface-variant">Label printed MRP is <strong>₹109</strong> whereas repository record is <strong>₹99</strong> (+₹10 overcharge detected).</p>
+                </div>
+              </div>
+              <button onclick="openForensicModalByBarcode('8901030123471')" 
+                      class="px-3 h-8 bg-error hover:bg-error/90 text-on-error rounded font-heading text-xs font-bold shrink-0 self-center transition active:scale-95 shadow-sm">
+                Inspect
+              </button>
+            </div>
+          </div>
+
+          <!-- Alert 2: Nirmal Atta Missing Consumer Care & Expiry -->
+          <div class="bg-surface-container-lowest rounded-xl p-3 shadow-sm border-l-4 border-warning border-y border-r border-surface-container-high flex flex-col gap-2">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-start gap-2.5 min-w-0">
+                <span class="w-7 h-7 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center shrink-0 mt-0.5">
+                  <span class="material-symbols-outlined text-[16px]">warning</span>
+                </span>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="text-[11px] font-bold text-amber-700 uppercase tracking-wider font-heading">Missing Declarations (Rule LM-CONSUMER-CARE-PRESENCE)</span>
+                    <span class="text-xs text-on-surface-variant">• Barcode: 8901030123464</span>
+                  </div>
+                  <h3 class="font-heading text-sm font-bold text-on-surface mt-0.5 truncate">Nirmal Wheat Flour (Atta) 5kg</h3>
+                  <p class="text-xs text-on-surface-variant">Consumer care contact details and best-before date were not found in label OCR blocks.</p>
+                </div>
+              </div>
+              <button onclick="openForensicModalByBarcode('8901030123464')" 
+                      class="px-3 h-8 bg-secondary hover:bg-secondary/90 text-on-secondary rounded font-heading text-xs font-bold shrink-0 self-center transition active:scale-95 shadow-sm">
+                Review
+              </button>
+            </div>
+          </div>
+
+          <!-- Alert 3: Suraksha Sunflower Oil - Verified Clean -->
+          <div class="bg-surface-container-lowest rounded-xl p-3 shadow-sm border-l-4 border-emerald-600 border-y border-r border-surface-container-high flex items-center justify-between gap-2">
+            <div class="flex items-start gap-2.5 min-w-0">
+              <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0 mt-0.5">
+                <span class="material-symbols-outlined text-[16px]">verified</span>
+              </span>
+              <div class="flex flex-col min-w-0">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="text-[11px] font-bold text-emerald-700 uppercase tracking-wider font-heading">Fully Compliant & Certified</span>
+                  <span class="text-xs text-on-surface-variant">• Barcode: 8901030123457</span>
+                </div>
+                <h3 class="font-heading text-sm font-bold text-on-surface mt-0.5 truncate">Suraksha Refined Sunflower Oil 1000ml</h3>
+                <p class="text-xs text-on-surface-variant">All Legal Metrology & FSSAI declarations present and consistent. Inspection report generated.</p>
+              </div>
+            </div>
+            <button onclick="openForensicModalByBarcode('8901030123457')" 
+                    class="px-3 h-8 bg-surface-container-high hover:bg-surface-container-highest text-on-surface rounded font-heading text-xs font-bold shrink-0 self-center transition">
+              View
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dock Evidence Gallery Preview -->
+      <section>
+        <div class="flex items-center justify-between mb-2">
+          <span class="font-heading text-xs uppercase font-bold text-on-surface tracking-wide">Dock Evidence Log</span>
+          <span class="text-xs text-secondary font-bold font-heading">Gate 4 Physical Intake</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+          <div class="relative rounded-xl overflow-hidden shadow-sm bg-surface-container group">
+            <img class="w-full h-28 object-cover group-hover:scale-105 transition-transform" 
+                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX3eMCnzXMiz6kZtRi_H10Lv3xVdUdWO919xroYYFd9rhjMySE356I8Vx4PXL45U0eX6wxYa9RjxevUS_-Z47notC9FjexRO1lCE7bilq5ZxPXmXMJeSDq6v3fucrjhoMvSy72j1EQ3DrP_Y0_uDeGxS6MnYHi_9cTjdabcEo0sx1uaNdXA6Jtl41ufb01pw2WaD6Oz-zKWrM_z6AtY_9OOreYo-t0Wmwkw5nxC3lsIEo4bjq96Y4" alt="Package label"/>
+            <div class="absolute bottom-0 inset-x-0 bg-primary/85 p-1.5 backdrop-blur-xs text-on-primary">
+              <span class="text-[10px] font-mono block truncate font-bold">BARCODE #8901030123471</span>
+              <span class="text-[9px] text-error-container font-bold uppercase">MRP Mismatch Flagged</span>
+            </div>
+          </div>
+          <div class="relative rounded-xl overflow-hidden shadow-sm bg-surface-container group">
+            <img class="w-full h-28 object-cover group-hover:scale-105 transition-transform" 
+                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCypfzrFf4s71O8_vOPxf132YclVcYyis2cej2Yz899oChY742ermbTO5Y--a4dd3yrt8Y8QK4nHCQmnbPXbpT1hYH9sjLlJpTETecPgHRZiciVxQgQ2tYuoPHWAaG6jimrgjNt0AZ7Ux_PMGjTi0dxL3ufwq69ugTXOS2ZNpa4fw71jkyP64bad55ISO4PjalpSH_Xx82Sh3dNHTlfCDjo215OZJXfhFEoOL07MdivGINDCbCd9Yc" alt="Warehouse produce"/>
+            <div class="absolute bottom-0 inset-x-0 bg-primary/85 p-1.5 backdrop-blur-xs text-on-primary">
+              <span class="text-[10px] font-mono block truncate font-bold">BARCODE #8901030123457</span>
+              <span class="text-[9px] text-tertiary-fixed font-bold uppercase">Sunflower Oil Cleared</span>
+            </div>
+          </div>
+          <div class="hidden sm:block relative rounded-xl overflow-hidden shadow-sm bg-surface-container group">
+            <div class="w-full h-28 bg-primary-container flex flex-col items-center justify-center text-on-primary p-3 text-center">
+              <span class="material-symbols-outlined text-[32px] text-secondary-container">add_a_photo</span>
+              <span class="text-xs font-bold mt-1">Multi-Side Capture</span>
+              <span class="text-[10px] text-on-primary-container">Front / Back / MRP Panels</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Inspection Docket (Live Filterable Feed) -->
+      <section>
+        <div class="flex items-center justify-between mb-2">
+          <span class="font-heading text-xs uppercase font-bold text-on-surface tracking-wide">Inspection Docket & Audit Ledger</span>
+          <span class="text-xs text-on-surface-variant font-medium">Auto-Syncing</span>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative w-full mb-2.5">
+          <input id="docketSearchInput" type="text" oninput="filterDocketItems()"
+                 placeholder="Search by Inspection ID, Barcode, Product Name, or Manufacturer..." 
+                 class="w-full h-11 bg-surface-container-lowest rounded-xl pl-10 pr-4 text-sm text-on-surface placeholder:text-outline border border-surface-container-high focus:outline-none focus:border-secondary shadow-xs"/>
+          <span class="material-symbols-outlined text-outline absolute left-3 top-3 text-[20px]">search</span>
+        </div>
+
+        <!-- Filter Chips -->
+        <div id="docketFilterPills" class="flex items-center gap-1.5 overflow-x-auto pb-1 mb-2.5">
+          <button data-filter="all" onclick="setDocketFilter('all')" class="filter-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-primary text-on-primary shrink-0 shadow-xs">
+            All Records (5)
+          </button>
+          <button data-filter="NON_COMPLIANT" onclick="setDocketFilter('NON_COMPLIANT')" class="filter-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-container-high text-on-surface-variant shrink-0 hover:bg-surface-container-highest">
+            Non-Compliant (2)
+          </button>
+          <button data-filter="REVIEW_REQUIRED" onclick="setDocketFilter('REVIEW_REQUIRED')" class="filter-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-container-high text-on-surface-variant shrink-0 hover:bg-surface-container-highest">
+            Review Required (2)
+          </button>
+          <button data-filter="COMPLIANT" onclick="setDocketFilter('COMPLIANT')" class="filter-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-container-high text-on-surface-variant shrink-0 hover:bg-surface-container-highest">
+            Compliant (1)
+          </button>
+        </div>
+
+        <!-- Dynamic List of Inspections -->
+        <div id="docketListContainer" class="flex flex-col gap-2">
+          <!-- Rendered dynamically by JavaScript -->
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: SCAN & PACKAGE INTAKE (NEW INSP)    -->
+    <!-- ========================================== -->
+    <div id="view-scan-inspection" class="view-tab hidden flex-col w-full gap-4">
+      
+      <!-- Stepper Indicator -->
+      <section class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container-high">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="font-heading text-base font-bold text-on-surface">Initiate New Package Inspection</h2>
+          <span class="px-2 py-0.5 rounded bg-secondary-container/40 text-on-secondary-container text-[10px] font-bold uppercase font-heading">
+            Workflow: Step 1 of 6
+          </span>
+        </div>
+        <p class="text-xs text-on-surface-variant mb-4">
+          Scan the commodity barcode or select from repository, then capture or upload multi-side package photographs (Front, Back, and MRP/Declaration panel).
+        </p>
+
+        <!-- Barcode Lookup Block -->
+        <div class="flex flex-col gap-2">
+          <label class="font-heading text-xs font-bold text-on-surface uppercase tracking-wide">
+            1. Barcode / GTIN-13 Identification
+          </label>
+          <div class="flex gap-2">
+            <div class="relative flex-1">
+              <input id="scanBarcodeField" type="text" placeholder="Enter 13-digit barcode (e.g. 8901030123457)..." 
+                     class="w-full h-11 bg-surface-container-low rounded-lg pl-10 pr-3 text-sm text-on-surface font-mono font-bold focus:outline-none focus:ring-2 focus:ring-secondary border border-surface-container-high"/>
+              <span class="material-symbols-outlined text-outline absolute left-3 top-2.5 text-[20px]">qr_code_scanner</span>
+            </div>
+            <button onclick="lookupBarcode()" class="px-4 h-11 bg-secondary text-on-secondary rounded-lg font-heading text-xs font-bold hover:bg-secondary/90 shrink-0 transition flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[18px]">search</span>
+              <span>Verify Barcode</span>
+            </button>
+          </div>
+
+          <!-- Quick Scenario Selector Buttons -->
+          <div class="mt-2">
+            <span class="text-[11px] text-on-surface-variant font-medium">Quick load demo scenarios from SIH brief:</span>
+            <div class="flex flex-wrap gap-1.5 mt-1.5">
+              <button onclick="selectDemoProduct('8901030123457')" class="px-2.5 py-1 rounded bg-surface-container hover:bg-secondary hover:text-white transition text-xs font-mono font-semibold">
+                8901030123457 (Sunflower Oil - Compliant)
+              </button>
+              <button onclick="selectDemoProduct('8901030123464')" class="px-2.5 py-1 rounded bg-surface-container hover:bg-secondary hover:text-white transition text-xs font-mono font-semibold">
+                8901030123464 (Nirmal Atta - Missing Decs)
+              </button>
+              <button onclick="selectDemoProduct('8901030123471')" class="px-2.5 py-1 rounded bg-surface-container hover:bg-secondary hover:text-white transition text-xs font-mono font-semibold">
+                8901030123471 (Namkeen - MRP Mismatch)
+              </button>
+              <button onclick="selectDemoProduct('8901030123488')" class="px-2.5 py-1 rounded bg-surface-container hover:bg-secondary hover:text-white transition text-xs font-mono font-semibold">
+                8901030123488 (Toothpaste - Low Readability)
+              </button>
+              <button onclick="selectDemoProduct('8901030123495')" class="px-2.5 py-1 rounded bg-surface-container hover:bg-secondary hover:text-white transition text-xs font-mono font-semibold">
+                8901030123495 (Noodles - Multi Violations)
+              </button>
+            </div>
+          </div>
+
+          <!-- Resolved Product Details Display Card -->
+          <div id="barcodeMatchResult" class="hidden mt-3 p-3 rounded-lg border"></div>
+        </div>
+      </section>
+
+      <!-- Multi-Side Package Evidence Upload Section -->
+      <section class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container-high">
+        <label class="font-heading text-xs font-bold text-on-surface uppercase tracking-wide block mb-1">
+          2. Multi-Side Package Photographs (Evidence)
+        </label>
+        <p class="text-xs text-on-surface-variant mb-3">
+          Upload crisp images of the front panel, back declarations, and stamped MRP/Date panel.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <!-- Side 1: Front Panel -->
+          <div class="border-2 border-dashed border-surface-container-highest rounded-xl p-3 flex flex-col items-center justify-center text-center bg-surface-container-low min-h-[140px] relative">
+            <img id="previewSide1" class="hidden absolute inset-0 w-full h-full object-cover rounded-xl" alt="Front Preview"/>
+            <div id="placeholderSide1" class="flex flex-col items-center">
+              <span class="material-symbols-outlined text-[28px] text-secondary">photo_camera</span>
+              <span class="text-xs font-bold font-heading mt-1">Front Panel</span>
+              <span class="text-[10px] text-on-surface-variant">Brand, Product Name, Net Qty</span>
+            </div>
+            <input type="file" accept="image/*" onchange="handleImageSelect(event, 1)" class="absolute inset-0 opacity-0 cursor-pointer"/>
+          </div>
+
+          <!-- Side 2: Back Declaration Panel -->
+          <div class="border-2 border-dashed border-surface-container-highest rounded-xl p-3 flex flex-col items-center justify-center text-center bg-surface-container-low min-h-[140px] relative">
+            <img id="previewSide2" class="hidden absolute inset-0 w-full h-full object-cover rounded-xl" alt="Back Preview"/>
+            <div id="placeholderSide2" class="flex flex-col items-center">
+              <span class="material-symbols-outlined text-[28px] text-secondary">document_scanner</span>
+              <span class="text-xs font-bold font-heading mt-1">Back / Ingredients</span>
+              <span class="text-[10px] text-on-surface-variant">Manufacturer, Country of Origin</span>
+            </div>
+            <input type="file" accept="image/*" onchange="handleImageSelect(event, 2)" class="absolute inset-0 opacity-0 cursor-pointer"/>
+          </div>
+
+          <!-- Side 3: MRP & Batch Stamping Panel -->
+          <div class="border-2 border-dashed border-surface-container-highest rounded-xl p-3 flex flex-col items-center justify-center text-center bg-surface-container-low min-h-[140px] relative">
+            <img id="previewSide3" class="hidden absolute inset-0 w-full h-full object-cover rounded-xl" alt="MRP Preview"/>
+            <div id="placeholderSide3" class="flex flex-col items-center">
+              <span class="material-symbols-outlined text-[28px] text-secondary">sell</span>
+              <span class="text-xs font-bold font-heading mt-1">MRP & Batch Panel</span>
+              <span class="text-[10px] text-on-surface-variant">Price, Mfg Date, Expiry</span>
+            </div>
+            <input type="file" accept="image/*" onchange="handleImageSelect(event, 3)" class="absolute inset-0 opacity-0 cursor-pointer"/>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between mt-3 pt-2 border-t border-surface-container-high">
+          <button onclick="loadSampleEvidence()" class="text-xs text-secondary hover:underline font-bold flex items-center gap-1">
+            <span class="material-symbols-outlined text-[16px]">collections</span>
+            <span>Auto-fill Demo Package Evidence Photos</span>
+          </button>
+          <span id="evidenceCountText" class="text-xs text-on-surface-variant font-medium">0 images selected</span>
+        </div>
+      </section>
+
+      <!-- Action Button: Run Forensic AI Analysis -->
+      <section>
+        <button id="runAnalysisBtn" onclick="executeFullPipelineAnalysis()" 
+                class="w-full h-12 bg-secondary hover:bg-secondary/90 text-on-secondary rounded-xl font-heading text-sm font-bold flex items-center justify-center gap-2 shadow-md transition active:scale-[0.99]">
+          <span class="material-symbols-outlined text-[22px]">smart_toy</span>
+          <span>Execute Forensic AI OCR & Legal Metrology Inspection</span>
+        </button>
+      </section>
+
+      <!-- Analysis Processing Overlay Modal (Animated) -->
+      <div id="analysisProgressModal" class="hidden fixed inset-0 z-[100] bg-primary/70 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-surface-container-lowest rounded-2xl p-6 max-w-md w-full shadow-2xl border border-surface-container-high flex flex-col gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined animate-spin text-[22px]">progress_activity</span>
+            </div>
+            <div class="flex flex-col">
+              <h3 class="font-heading text-base font-bold text-on-surface">Analyzing Legal Metrology Declarations</h3>
+              <p class="text-xs text-on-surface-variant">Executing OCR + Computer Vision + Rule Engine</p>
+            </div>
+          </div>
+
+          <div class="space-y-2 text-xs" id="analysisStepsList">
+            <div class="step-item flex items-center gap-2 text-on-surface-variant" id="step1">
+              <span class="material-symbols-outlined text-[18px] text-secondary">radio_button_unchecked</span>
+              <span>1. Image preprocessing and contrast equalization</span>
+            </div>
+            <div class="step-item flex items-center gap-2 text-on-surface-variant" id="step2">
+              <span class="material-symbols-outlined text-[18px] text-secondary">radio_button_unchecked</span>
+              <span>2. PaddleOCR text extraction and bounding box detection</span>
+            </div>
+            <div class="step-item flex items-center gap-2 text-on-surface-variant" id="step3">
+              <span class="material-symbols-outlined text-[18px] text-secondary">radio_button_unchecked</span>
+              <span>3. Parsing declarations (MRP, Net Qty, Dates, Maker, Origin)</span>
+            </div>
+            <div class="step-item flex items-center gap-2 text-on-surface-variant" id="step4">
+              <span class="material-symbols-outlined text-[18px] text-secondary">radio_button_unchecked</span>
+              <span>4. Font size & label readability assessment</span>
+            </div>
+            <div class="step-item flex items-center gap-2 text-on-surface-variant" id="step5">
+              <span class="material-symbols-outlined text-[18px] text-secondary">radio_button_unchecked</span>
+              <span>5. Validating against 10 Legal Metrology Compliance Rules</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: TRACEABILITY & REPOSITORY           -->
+    <!-- ========================================== -->
+    <div id="view-traceability" class="view-tab hidden flex-col w-full gap-4">
+      <section class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container-high">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <h2 class="font-heading text-base font-bold text-on-surface">Packaged Commodities Repository</h2>
+            <p class="text-xs text-on-surface-variant">Reference Legal Metrology specifications registered under Central Database.</p>
+          </div>
+          <button onclick="switchTab('scan-inspection')" class="px-3 h-8 bg-secondary text-on-secondary rounded font-heading text-xs font-bold hover:bg-secondary/90 transition">
+            + New Product
+          </button>
+        </div>
+
+        <div class="relative w-full my-2">
+          <input id="productSearchInput" type="text" oninput="filterProductCatalog()"
+                 placeholder="Search products by Name, Brand, Manufacturer, or Category..." 
+                 class="w-full h-10 bg-surface-container-low rounded-lg pl-9 pr-3 text-xs text-on-surface focus:outline-none focus:border-secondary border border-surface-container-high"/>
+          <span class="material-symbols-outlined text-outline absolute left-2.5 top-2.5 text-[18px]">search</span>
+        </div>
+
+        <div id="productCatalogList" class="flex flex-col gap-2 mt-3">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 4: INSPECTION HISTORY (AUDIT DOCKET)   -->
+    <!-- ========================================== -->
+    <div id="view-history-records" class="view-tab hidden flex-col w-full gap-4">
+      <section class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container-high">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <h2 class="font-heading text-base font-bold text-on-surface">Inspection Audit History & Legal Ledger</h2>
+            <p class="text-xs text-on-surface-variant">Complete chain of evidence with tamper-evident inspection codes.</p>
+          </div>
+          <button onclick="exportHistoryCsv()" class="px-3 h-8 border border-secondary text-secondary rounded font-heading text-xs font-bold hover:bg-secondary/10 transition flex items-center gap-1">
+            <span class="material-symbols-outlined text-[16px]">download</span>
+            <span>Export CSV</span>
+          </button>
+        </div>
+
+        <div id="historyTableContainer" class="overflow-x-auto">
+          <!-- Table populated dynamically -->
+        </div>
+      </section>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 5: INSPECTOR PROFILE & SYSTEM SETTINGS -->
+    <!-- ========================================== -->
+    <div id="view-inspector-profile" class="view-tab hidden flex-col w-full gap-4">
+      
+      <!-- Officer Digital Credential Badge -->
+      <section class="bg-primary text-on-primary rounded-xl p-5 shadow-md relative overflow-hidden">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-14 h-14 rounded-full bg-primary-container ring-2 ring-secondary-container flex items-center justify-center">
+              <span class="material-symbols-outlined text-on-primary text-[32px]">shield_person</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="px-2 py-0.5 rounded bg-secondary text-on-secondary text-[9px] uppercase font-bold tracking-widest w-fit mb-1">
+                Authorised Enforcement Officer
+              </span>
+              <h2 id="profileNameDisplay" class="font-heading text-lg font-bold">Rajesh Sharma</h2>
+              <p id="profileDesignation" class="text-xs text-on-primary-container">Food Safety & Legal Metrology Inspector #MH-41101</p>
+            </div>
+          </div>
+          <span class="material-symbols-outlined text-secondary-container text-[40px] opacity-70">verified</span>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-primary-container grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+          <div>
+            <span class="text-[10px] text-on-primary-container uppercase font-bold">Jurisdiction</span>
+            <p class="font-semibold">Pune Division, MH</p>
+          </div>
+          <div>
+            <span class="text-[10px] text-on-primary-container uppercase font-bold">Warrant Code</span>
+            <p class="font-semibold">FSSAI-MH-2026-99</p>
+          </div>
+          <div>
+            <span class="text-[10px] text-on-primary-container uppercase font-bold">Digital Signature</span>
+            <p class="font-semibold text-emerald-400">Cryptographically Active</p>
+          </div>
+          <div>
+            <span class="text-[10px] text-on-primary-container uppercase font-bold">Access Scope</span>
+            <p id="profileScopeDisplay" class="font-semibold">Field Inspector (Own Audits)</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- RBAC Persona Switcher -->
+      <section class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container-high">
+        <h3 class="font-heading text-sm font-bold text-on-surface mb-2">Role-Based Access Control (RBAC) Switcher</h3>
+        <p class="text-xs text-on-surface-variant mb-3">
+          Switch persona to test role permissions enforced by the backend API:
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <div onclick="switchRole('INSPECTOR')" class="role-card p-3 rounded-lg border-2 cursor-pointer transition border-secondary bg-secondary/5">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-heading text-xs font-bold text-secondary">INSPECTOR</span>
+              <span class="material-symbols-outlined text-secondary text-[18px]">badge</span>
+            </div>
+            <p class="text-xs font-semibold text-on-surface">Rajesh Sharma</p>
+            <p class="text-[11px] text-on-surface-variant mt-1">Field operations, image intake, and review of own inspections.</p>
+          </div>
+
+          <div onclick="switchRole('OFFICER')" class="role-card p-3 rounded-lg border-2 cursor-pointer transition border-surface-container-high hover:border-secondary bg-surface-container-low">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-heading text-xs font-bold text-emerald-700">OFFICER</span>
+              <span class="material-symbols-outlined text-emerald-700 text-[18px]">verified_user</span>
+            </div>
+            <p class="text-xs font-semibold text-on-surface">Meera Iyer</p>
+            <p class="text-[11px] text-on-surface-variant mt-1">Supervisory review, division-wide metrics, and sign-offs.</p>
+          </div>
+
+          <div onclick="switchRole('ADMIN')" class="role-card p-3 rounded-lg border-2 cursor-pointer transition border-surface-container-high hover:border-secondary bg-surface-container-low">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-heading text-xs font-bold text-purple-700">ADMIN</span>
+              <span class="material-symbols-outlined text-purple-700 text-[18px]">admin_panel_settings</span>
+            </div>
+            <p class="text-xs font-semibold text-on-surface">Vikram Malhotra</p>
+            <p class="text-[11px] text-on-surface-variant mt-1">Full rule engine configuration and user management.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Backend Connection Settings & Health Check -->
+      <section class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container-high">
+        <h3 class="font-heading text-sm font-bold text-on-surface mb-2">Backend API Integration</h3>
+        <p class="text-xs text-on-surface-variant mb-3">
+          This portal automatically interacts with the Express/Node.js API running at localhost:5000 and falls back to rich standalone simulation when offline.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-2">
+          <input id="apiEndpointInput" type="text" value="http://localhost:5000/api" 
+                 class="flex-1 h-10 bg-surface-container-low rounded-lg px-3 text-xs text-on-surface font-mono border border-surface-container-high focus:outline-none focus:border-secondary"/>
+          <button onclick="saveAndTestApiConnection()" class="px-4 h-10 bg-primary text-on-primary rounded-lg font-heading text-xs font-bold hover:bg-primary-container shrink-0 transition flex items-center justify-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px]">sync</span>
+            <span>Test Connection</span>
+          </button>
+        </div>
+
+        <div id="apiHealthDiagnostic" class="mt-3 p-3 rounded-lg bg-surface-container-low border border-surface-container-high text-xs space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-on-surface-variant">Node/Express Server (Port 5000):</span>
+            <span id="diagBackend" class="font-bold text-emerald-700">Checking…</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-on-surface-variant">MongoDB Database:</span>
+            <span id="diagMongo" class="font-bold text-on-surface">Connected / Emulated</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-on-surface-variant">Python AI OCR Service (Port 8000):</span>
+            <span id="diagAiService" class="font-bold text-on-surface">PaddleOCR / OpenCV Client Ready</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-on-surface-variant">Compliance Rule Engine:</span>
+            <span id="diagRules" class="font-bold text-emerald-700">10 Active Rules Loaded (PCR 2011)</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- FORENSIC INSPECTION DETAIL MODAL (FULL ANALYSIS & VERIFY) -->
+  <!-- ======================================================== -->
+  <div id="forensicDetailModal" class="hidden fixed inset-0 z-[90] bg-primary/75 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+    <div class="bg-surface-container-lowest rounded-2xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-surface-container-high overflow-hidden my-auto">
+      
+      <!-- Modal Header -->
+      <div class="p-4 bg-primary-container text-on-primary flex items-center justify-between gap-3 shrink-0">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[20px] text-secondary-container">policy</span>
+          </div>
+          <div class="flex flex-col min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span id="modalInspCode" class="font-heading text-sm font-bold tracking-tight">INS-20260929-0001</span>
+              <span id="modalStatusBadge" class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider">COMPLIANT</span>
+            </div>
+            <span id="modalProductName" class="text-xs text-on-primary-container truncate font-medium">Suraksha Refined Sunflower Oil 1000ml</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <!-- Download Official PDF Report Button -->
+          <button onclick="downloadOfficialReportPdf()" class="px-3 h-8 bg-secondary hover:bg-secondary/90 text-on-secondary rounded font-heading text-xs font-bold flex items-center gap-1 transition shadow-sm" title="Generate Legal Metrology PDF Report">
+            <span class="material-symbols-outlined text-[16px]">picture_as_pdf</span>
+            <span class="hidden sm:inline">PDF Report</span>
+          </button>
+          <button onclick="closeForensicModal()" class="w-8 h-8 rounded-full bg-primary hover:bg-primary/80 flex items-center justify-center text-on-primary transition">
+            <span class="material-symbols-outlined text-[18px]">close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="p-4 sm:p-5 overflow-y-auto space-y-4 text-on-surface">
+        
+        <!-- 6-Stage Linear Pipeline Progress Bar -->
+        <div class="bg-surface-container-low rounded-xl p-3 border border-surface-container-high">
+          <span class="text-[10px] uppercase font-bold tracking-wider text-outline block mb-2 font-heading">
+            Authoritative Pipeline Status (docs/SYSTEM_FLOW.md)
+          </span>
+          <div class="flex items-center justify-between text-xs">
+            <div class="flex items-center gap-1 text-emerald-700 font-bold">
+              <span class="material-symbols-outlined text-[16px]">check_circle</span>
+              <span>1. Scan</span>
+            </div>
+            <div class="h-0.5 w-6 bg-emerald-600"></div>
+            <div class="flex items-center gap-1 text-emerald-700 font-bold">
+              <span class="material-symbols-outlined text-[16px]">check_circle</span>
+              <span>2. OCR</span>
+            </div>
+            <div class="h-0.5 w-6 bg-emerald-600"></div>
+            <div class="flex items-center gap-1 text-emerald-700 font-bold">
+              <span class="material-symbols-outlined text-[16px]">check_circle</span>
+              <span>3. Extract</span>
+            </div>
+            <div class="h-0.5 w-6 bg-emerald-600"></div>
+            <div class="flex items-center gap-1 text-emerald-700 font-bold">
+              <span class="material-symbols-outlined text-[16px]">check_circle</span>
+              <span>4. Trace</span>
+            </div>
+            <div class="h-0.5 w-6 bg-emerald-600"></div>
+            <div class="flex items-center gap-1 text-emerald-700 font-bold">
+              <span class="material-symbols-outlined text-[16px]">check_circle</span>
+              <span>5. Inspect</span>
+            </div>
+            <div class="h-0.5 w-6 bg-emerald-600"></div>
+            <div class="flex items-center gap-1 text-emerald-700 font-bold">
+              <span class="material-symbols-outlined text-[16px]">check_circle</span>
+              <span>6. Report</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Evidence Package Photographs with Bounding Boxes Toggle -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-heading text-xs font-bold uppercase tracking-wider text-on-surface">
+              Photographic Package Evidence & OCR Bounding Boxes
+            </span>
+            <label class="flex items-center gap-1.5 cursor-pointer text-xs font-medium text-secondary">
+              <input id="toggleBBoxesCheck" type="checkbox" checked onchange="toggleBoundingBoxes()" class="rounded text-secondary"/>
+              <span>Show OCR Bounding Boxes</span>
+            </label>
+          </div>
+          <div id="modalEvidencePhotos" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <!-- Extracted Declarations vs Repository Cross-Verification Grid -->
+        <div class="bg-surface-container-lowest rounded-xl border border-surface-container-high overflow-hidden shadow-xs">
+          <div class="p-3 bg-surface-container-low border-b border-surface-container-high flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-secondary text-[18px]">table_chart</span>
+              <span class="font-heading text-xs font-bold uppercase tracking-wide">
+                Declaration Cross-Verification (Detected vs Repository)
+              </span>
+            </div>
+            <span class="text-[10px] text-on-surface-variant font-medium">Under Legal Metrology Rules §11</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-surface-container text-outline uppercase font-heading text-[10px]">
+                <tr>
+                  <th class="p-2.5 font-bold">Mandatory Field</th>
+                  <th class="p-2.5 font-bold">Label OCR Extracted</th>
+                  <th class="p-2.5 font-bold">Repository Reference</th>
+                  <th class="p-2.5 font-bold text-center">Status</th>
+                </tr>
+              </thead>
+              <tbody id="modalDeclarationsTableBody" class="divide-y divide-surface-container-high">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Font Size & Readability Analysis Assessment (Rule LM-READABILITY) -->
+        <div class="bg-surface-container-lowest rounded-xl p-3.5 border border-surface-container-high shadow-xs">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-secondary text-[18px]">text_fields</span>
+              <span class="font-heading text-xs font-bold uppercase tracking-wide">
+                Font Size & Readability Analysis (PCR Rule 7)
+              </span>
+            </div>
+            <span id="readabilityOverallBadge" class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-100 text-emerald-800">
+              PASS
+            </span>
+          </div>
+          <div id="readabilityAssessmentContainer" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-2">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <!-- Explainable Rule Findings & Human-In-The-Loop Verification -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-primary text-[18px]">gavel</span>
+              <span class="font-heading text-xs font-bold uppercase tracking-wide">
+                Explainable Compliance Findings & Evidence-First Review
+              </span>
+            </div>
+            <span id="modalFindingsCountBadge" class="text-xs font-bold text-secondary font-heading">
+              0 Violations
+            </span>
+          </div>
+
+          <div id="modalFindingsList" class="flex flex-col gap-3">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-3.5 bg-surface-container-low border-t border-surface-container-high flex flex-wrap items-center justify-between gap-2 shrink-0">
+        <div class="flex items-center gap-1.5 text-xs text-on-surface-variant">
+          <span class="material-symbols-outlined text-[16px] text-emerald-600">verified</span>
+          <span>Digital Chain of Custody Secure & Timestamped</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="closeForensicModal()" class="px-4 h-9 rounded-lg border border-surface-container-highest bg-surface-container-lowest text-xs font-bold text-on-surface hover:bg-surface-container transition">
+            Close View
+          </button>
+          <button onclick="downloadOfficialReportPdf()" class="px-4 h-9 rounded-lg bg-secondary text-on-secondary text-xs font-bold hover:bg-secondary/90 transition shadow-sm flex items-center gap-1">
+            <span class="material-symbols-outlined text-[16px]">download</span>
+            <span>Download Official Certificate</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FIXED BOTTOM NAVIGATION BAR -->
+  <nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(18,59,93,0.08)] border-t border-surface-container-high">
+    <div class="h-16 max-w-lg mx-auto px-4 flex items-center justify-around">
+      
+      <!-- Tab: Dashboard -->
+      <button onclick="switchTab('dashboard')" class="nav-tab-btn flex-1 min-w-[44px] min-h-[44px] flex flex-col items-center justify-center transition-colors text-secondary font-semibold" data-target="dashboard">
+        <span class="material-symbols-outlined text-[24px]">dashboard</span>
+        <span class="font-heading text-[10px] tracking-tight">Dashboard</span>
+      </button>
+
+      <!-- Tab: Traceability -->
+      <button onclick="switchTab('traceability')" class="nav-tab-btn flex-1 min-w-[44px] min-h-[44px] flex flex-col items-center justify-center transition-colors text-on-surface-variant hover:text-on-surface" data-target="traceability">
+        <span class="material-symbols-outlined text-[24px]">account_tree</span>
+        <span class="font-heading text-[10px] tracking-tight">Trace</span>
+      </button>
+
+      <!-- Tab: Scan / Intake (Center Floating Button) -->
+      <div class="shrink-0 -mt-6 flex flex-col items-center justify-center">
+        <button onclick="switchTab('scan-inspection')" class="w-14 h-14 rounded-full bg-secondary text-on-secondary shadow-[0_4px_14px_rgba(2,97,162,0.45)] flex items-center justify-center transition-transform active:scale-95 hover:bg-secondary/90">
+          <span class="material-symbols-outlined text-[30px]">qr_code_scanner</span>
+        </button>
+        <span class="font-heading text-[10px] font-bold text-secondary uppercase tracking-wider mt-1">Scan</span>
+      </div>
+
+      <!-- Tab: History / Docket -->
+      <button onclick="switchTab('history-records')" class="nav-tab-btn flex-1 min-w-[44px] min-h-[44px] flex flex-col items-center justify-center transition-colors text-on-surface-variant hover:text-on-surface" data-target="history-records">
+        <span class="material-symbols-outlined text-[24px]">history_edu</span>
+        <span class="font-heading text-[10px] tracking-tight">History</span>
+      </button>
+
+      <!-- Tab: Profile / Settings -->
+      <button onclick="switchTab('inspector-profile')" class="nav-tab-btn flex-1 min-w-[44px] min-h-[44px] flex flex-col items-center justify-center transition-colors text-on-surface-variant hover:text-on-surface" data-target="inspector-profile">
+        <span class="material-symbols-outlined text-[24px]">manage_accounts</span>
+        <span class="font-heading text-[10px] tracking-tight">Profile</span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- ======================================================== -->
+  <!-- APPLICATION LOGIC: CLIENT STATE & API INTEGRATION ENGINE -->
+  <!-- ======================================================== -->
+  <script>
+    /**
+     * APPLICATION CONFIGURATION & STATE
+     * Strictly mirrors the models and scenarios in sih2026/backend
+     */
+    const CONFIG = {
+      apiBase: localStorage.getItem('labelcheck_api_base') || 'http://localhost:5000/api',
+      isBackendAlive: false,
+      activeRole: localStorage.getItem('labelcheck_role') || 'INSPECTOR'
+    };
+
+    // User Personas matching sih2026 backend demo accounts
+    const USERS = {
+      INSPECTOR: {
+        id: "usr_inspector_01",
+        name: "Rajesh Sharma",
+        email: "inspector@example.com",
+        role: "INSPECTOR",
+        badge: "Food Safety Officer #MH-41101",
+        scope: "Field Inspector (Own Audits)"
+      },
+      OFFICER: {
+        id: "usr_officer_02",
+        name: "Meera Iyer",
+        email: "officer@example.com",
+        role: "OFFICER",
+        badge: "Senior Legal Metrology Officer",
+        scope: "Supervisory Division Access"
+      },
+      ADMIN: {
+        id: "usr_admin_03",
+        name: "Vikram Malhotra",
+        email: "admin@example.com",
+        role: "ADMIN",
+        badge: "Central System Administrator",
+        scope: "Full System & Rules Authority"
+      }
+    };
+
+    // 5 Official Seed Scenarios (from sih2026/backend/src/scripts/seedProducts.ts)
+    const DEMO_PRODUCTS = [
+      {
+        barcode: "8901030123457",
+        productName: "Suraksha Refined Sunflower Oil",
+        brand: "Suraksha",
+        manufacturer: "Suraksha Edible Oils Pvt. Ltd.",
+        productCategory: "Edible Oil",
+        netQuantity: 1000,
+        unit: "ml",
+        mrp: 189,
+        countryOfOrigin: "India",
+        manufacturingDate: "2026-04-10",
+        bestBeforeOrExpiry: "2027-04-09",
+        consumerCare: "1800-123-4567, care@surakshaoils.example",
+        batchNumber: "SUR-2026-0410-A",
+        fssaiLicenseNo: "12345678901234",
+        status: "COMPLIANT",
+        demoScenario: "Fully compliant — all required declarations present and consistent.",
+        images: [
+          "https://lh3.googleusercontent.com/aida-public/AB6AXuCypfzrFf4s71O8_vOPxf132YclVcYyis2cej2Yz899oChY742ermbTO5Y--a4dd3yrt8Y8QK4nHCQmnbPXbpT1hYH9sjLlJpTETecPgHRZiciVxQgQ2tYuoPHWAaG6jimrgjNt0AZ7Ux_PMGjTi0dxL3ufwq69ugTXOS2ZNpa4fw71jkyP64bad55ISO4PjalpSH_Xx82Sh3dNHTlfCDjo215OZJXfhFEoOL07MdivGINDCbCd9Yc"
+        ],
+        findings: []
+      },
+      {
+        barcode: "8901030123464",
+        productName: "Nirmal Wheat Flour (Atta)",
+        brand: "Nirmal",
+        manufacturer: "Nirmal Flour Mills Ltd.",
+        productCategory: "Staples",
+        netQuantity: 5,
+        unit: "kg",
+        mrp: 245,
+        countryOfOrigin: "India",
+        manufacturingDate: "2026-05-02",
+        bestBeforeOrExpiry: null,
+        consumerCare: null,
+        batchNumber: "NIR-0502",
+        status: "REVIEW_REQUIRED",
+        demoScenario: "Missing declaration — consumer care details and best-before date are not on the label.",
+        images: [
+          "https://lh3.googleusercontent.com/aida-public/AB6AXuDX3eMCnzXMiz6kZtRi_H10Lv3xVdUdWO919xroYYFd9rhjMySE356I8Vx4PXL45U0eX6wxYa9RjxevUS_-Z47notC9FjexRO1lCE7bilq5ZxPXmXMJeSDq6v3fucrjhoMvSy72j1EQ3DrP_Y0_uDeGxS6MnYHi_9cTjdabcEo0sx1uaNdXA6Jtl41ufb01pw2WaD6Oz-zKWrM_z6AtY_9OOreYo-t0Wmwkw5nxC3lsIEo4bjq96Y4"
+        ],
+        findings: [
+          {
+            _id: "fnd_01",
+            ruleCode: "LM-CONSUMER-CARE-PRESENCE",
+            ruleName: "Consumer care details should be present",
+            validationType: "PRESENCE",
+            field: "consumerCare",
+            outcome: "REVIEW_REQUIRED",
+            message: "Consumer care contact (phone/email) should be declared on the package.",
+            evidence: {
+              location: "Back Panel - Contact Section",
+              ocrText: "Customer Feedback: not provided",
+              extractedValue: "None detected",
+              expectedValue: "Phone or email address"
+            },
+            reviewStatus: "PENDING"
+          },
+          {
+            _id: "fnd_02",
+            ruleCode: "LM-EXPIRY-PRESENCE",
+            ruleName: "Best-before / expiry should be present",
+            validationType: "PRESENCE",
+            field: "bestBeforeOrExpiry",
+            outcome: "REVIEW_REQUIRED",
+            message: "Best-before or expiry information should be declared on the label.",
+            evidence: {
+              location: "Gusset / Bottom Seal",
+              ocrText: "Mfg Date 02/05/2026",
+              extractedValue: "None detected",
+              expectedValue: "Best before duration / date"
+            },
+            reviewStatus: "PENDING"
+          }
+        ]
+      },
+      {
+        barcode: "8901030123471",
+        productName: "Chatpata Masala Namkeen",
+        brand: "Chatpata",
+        manufacturer: "Chatpata Snacks Co.",
+        productCategory: "Packaged Snacks",
+        netQuantity: 200,
+        unit: "g",
+        mrp: 99,
+        countryOfOrigin: "India",
+        manufacturingDate: "2026-06-01",
+        bestBeforeOrExpiry: "2026-12-01",
+        consumerCare: "1800-987-6543",
+        batchNumber: "CHT-0601",
+        status: "NON_COMPLIANT",
+        demoScenario: "Inconsistent MRP — package is printed with Rs. 109 while repository record is Rs. 99.",
+        images: [
+          "https://lh3.googleusercontent.com/aida-public/AB6AXuDX3eMCnzXMiz6kZtRi_H10Lv3xVdUdWO919xroYYFd9rhjMySE356I8Vx4PXL45U0eX6wxYa9RjxevUS_-Z47notC9FjexRO1lCE7bilq5ZxPXmXMJeSDq6v3fucrjhoMvSy72j1EQ3DrP_Y0_uDeGxS6MnYHi_9cTjdabcEo0sx1uaNdXA6Jtl41ufb01pw2WaD6Oz-zKWrM_z6AtY_9OOreYo-t0Wmwkw5nxC3lsIEo4bjq96Y4"
+        ],
+        findings: [
+          {
+            _id: "fnd_03",
+            ruleCode: "LM-MRP-CONSISTENCY",
+            ruleName: "MRP matches product repository",
+            validationType: "CONSISTENCY",
+            field: "mrp",
+            outcome: "NON_COMPLIANT",
+            message: "Extracted label MRP (Rs. 109) exceeds registered repository MRP (Rs. 99) by Rs. 10.00.",
+            evidence: {
+              location: "Back Panel - Price Stamping",
+              ocrText: "M.R.P. Rs. 109.00 (INCL. ALL TAXES)",
+              extractedValue: "109",
+              expectedValue: "99"
+            },
+            reviewStatus: "CONFIRMED",
+            reviewComment: "Verified dockside price sticker overprint."
+          }
+        ]
+      },
+      {
+        barcode: "8901030123488",
+        productName: "Amrit Toothpaste Family Pack",
+        brand: "Amrit",
+        manufacturer: "Amrit Oral Care Ltd.",
+        productCategory: "Personal Care",
+        netQuantity: 200,
+        unit: "g",
+        mrp: 145,
+        countryOfOrigin: "India",
+        manufacturingDate: "2026-03-15",
+        bestBeforeOrExpiry: "2028-03-14",
+        consumerCare: "1800-555-1212",
+        batchNumber: "AMR-0315",
+        status: "REVIEW_REQUIRED",
+        demoScenario: "Poor readability — net quantity and MRP text printed with low contrast / small font.",
+        images: [
+          "https://lh3.googleusercontent.com/aida-public/AB6AXuCypfzrFf4s71O8_vOPxf132YclVcYyis2cej2Yz899oChY742ermbTO5Y--a4dd3yrt8Y8QK4nHCQmnbPXbpT1hYH9sjLlJpTETecPgHRZiciVxQgQ2tYuoPHWAaG6jimrgjNt0AZ7Ux_PMGjTi0dxL3ufwq69ugTXOS2ZNpa4fw71jkyP64bad55ISO4PjalpSH_Xx82Sh3dNHTlfCDjo215OZJXfhFEoOL07MdivGINDCbCd9Yc"
+        ],
+        findings: [
+          {
+            _id: "fnd_04",
+            ruleCode: "LM-READABILITY-MRP",
+            ruleName: "MRP text readability",
+            validationType: "READABILITY",
+            field: "mrp",
+            outcome: "WARNING",
+            message: "MRP text character height is below minimum optical legibility threshold for 200g commodity.",
+            evidence: {
+              location: "Bottom Flap",
+              ocrText: "mrp 145/-",
+              extractedValue: "Relative height 0.009 (Warning below 0.012)",
+              expectedValue: "Relative height >= 0.012"
+            },
+            reviewStatus: "PENDING"
+          }
+        ]
+      },
+      {
+        barcode: "8901030123495",
+        productName: "Rangeela Instant Noodles Multipack",
+        brand: "Rangeela",
+        manufacturer: "Rangeela Foods Pvt. Ltd.",
+        productCategory: "Packaged Food",
+        netQuantity: 280,
+        unit: "g",
+        mrp: 60,
+        countryOfOrigin: "India",
+        manufacturingDate: "2026-07-01",
+        bestBeforeOrExpiry: null,
+        consumerCare: null,
+        batchNumber: "RGL-0701",
+        status: "NON_COMPLIANT",
+        demoScenario: "Multiple findings — missing best-before, MRP mismatch (Rs. 65 vs 60), non-standard unit ('gm.').",
+        images: [
+          "https://lh3.googleusercontent.com/aida-public/AB6AXuDX3eMCnzXMiz6kZtRi_H10Lv3xVdUdWO919xroYYFd9rhjMySE356I8Vx4PXL45U0eX6wxYa9RjxevUS_-Z47notC9FjexRO1lCE7bilq5ZxPXmXMJeSDq6v3fucrjhoMvSy72j1EQ3DrP_Y0_uDeGxS6MnYHi_9cTjdabcEo0sx1uaNdXA6Jtl41ufb01pw2WaD6Oz-zKWrM_z6AtY_9OOreYo-t0Wmwkw5nxC3lsIEo4bjq96Y4"
+        ],
+        findings: [
+          {
+            _id: "fnd_05",
+            ruleCode: "LM-MRP-CONSISTENCY",
+            ruleName: "MRP matches product repository",
+            validationType: "CONSISTENCY",
+            field: "mrp",
+            outcome: "NON_COMPLIANT",
+            message: "Extracted label MRP (Rs. 65) differs from repository MRP (Rs. 60).",
+            evidence: {
+              location: "Side Crimp",
+              ocrText: "MRP Rs 65.00",
+              extractedValue: "65",
+              expectedValue: "60"
+            },
+            reviewStatus: "PENDING"
+          },
+          {
+            _id: "fnd_06",
+            ruleCode: "LM-NETQTY-FORMAT",
+            ruleName: "Net quantity unit uses standard abbreviation",
+            validationType: "FORMAT",
+            field: "netQuantity",
+            outcome: "REVIEW_REQUIRED",
+            message: "Unit abbreviation 'gm.' is non-standard under PCR 2011 Schedule 2 (mandates 'g').",
+            evidence: {
+              location: "Front Bottom",
+              ocrText: "Net Weight: 280 gm.",
+              extractedValue: "gm.",
+              expectedValue: "g"
+            },
+            reviewStatus: "PENDING"
+          }
+        ]
+      }
+    ];
+
+    // Seed Inspections Ledger
+    let INSPECTIONS = [
+      {
+        _id: "insp_01",
+        inspectionCode: "INS-20260929-0001",
+        product: DEMO_PRODUCTS[0],
+        status: "COMPLIANT",
+        barcodeScanned: "8901030123457",
+        barcodeMatched: true,
+        createdAt: new Date(Date.now() - 3600000 * 2).toISOString(),
+        inspectorName: "Rajesh Sharma",
+        images: DEMO_PRODUCTS[0].images,
+        findings: DEMO_PRODUCTS[0].findings
+      },
+      {
+        _id: "insp_02",
+        inspectionCode: "INS-20260929-0002",
+        product: DEMO_PRODUCTS[1],
+        status: "REVIEW_REQUIRED",
+        barcodeScanned: "8901030123464",
+        barcodeMatched: true,
+        createdAt: new Date(Date.now() - 3600000 * 1).toISOString(),
+        inspectorName: "Rajesh Sharma",
+        images: DEMO_PRODUCTS[1].images,
+        findings: DEMO_PRODUCTS[1].findings
+      },
+      {
+        _id: "insp_03",
+        inspectionCode: "INS-20260929-0003",
+        product: DEMO_PRODUCTS[2],
+        status: "NON_COMPLIANT",
+        barcodeScanned: "8901030123471",
+        barcodeMatched: true,
+        createdAt: new Date(Date.now() - 1800000).toISOString(),
+        inspectorName: "Rajesh Sharma",
+        images: DEMO_PRODUCTS[2].images,
+        findings: DEMO_PRODUCTS[2].findings
+      },
+      {
+        _id: "insp_04",
+        inspectionCode: "INS-20260929-0004",
+        product: DEMO_PRODUCTS[3],
+        status: "REVIEW_REQUIRED",
+        barcodeScanned: "8901030123488",
+        barcodeMatched: true,
+        createdAt: new Date(Date.now() - 900000).toISOString(),
+        inspectorName: "Rajesh Sharma",
+        images: DEMO_PRODUCTS[3].images,
+        findings: DEMO_PRODUCTS[3].findings
+      },
+      {
+        _id: "insp_05",
+        inspectionCode: "INS-20260929-0005",
+        product: DEMO_PRODUCTS[4],
+        status: "NON_COMPLIANT",
+        barcodeScanned: "8901030123495",
+        barcodeMatched: true,
+        createdAt: new Date(Date.now() - 300000).toISOString(),
+        inspectorName: "Rajesh Sharma",
+        images: DEMO_PRODUCTS[4].images,
+        findings: DEMO_PRODUCTS[4].findings
+      }
+    ];
+
+    let currentActiveInspection = INSPECTIONS[0];
+    let selectedFiles = [];
+
+    // ==========================================
+    // INITIALIZATION & TAB ROUTING
+    // ==========================================
+    window.addEventListener('DOMContentLoaded', () => {
+      applyCurrentPersona();
+      checkBackendHealth();
+      renderDashboard();
+      renderProductCatalog();
+      renderHistoryTable();
+    });
+
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const colors = {
+        success: 'bg-emerald-700 text-white border-emerald-800',
+        error: 'bg-error text-on-error border-red-800',
+        warning: 'bg-amber-600 text-white border-amber-700',
+        info: 'bg-primary-container text-on-primary border-secondary'
+      };
+      toast.className = `p-3 rounded-xl shadow-lg border text-xs font-semibold flex items-center gap-2 transform transition-all duration-300 translate-y-2 pointer-events-auto ${colors[type] || colors.info}`;
+      toast.innerHTML = `
+        <span class="material-symbols-outlined text-[18px]">
+          ${type === 'success' ? 'check_circle' : type === 'error' ? 'error' : type === 'warning' ? 'warning' : 'info'}
+        </span>
+        <span>${message}</span>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => toast.classList.remove('translate-y-2'), 10);
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-x-4');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.view-tab').forEach(el => el.classList.add('hidden'));
+      const activeTab = document.getElementById(`view-${tabId}`);
+      if (activeTab) activeTab.classList.remove('hidden');
+
+      // Update Nav Bar highlights
+      document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+        const isMatch = btn.getAttribute('data-target') === tabId;
+        if (isMatch) {
+          btn.classList.add('text-secondary', 'font-semibold');
+          btn.classList.remove('text-on-surface-variant');
+        } else {
+          btn.classList.remove('text-secondary', 'font-semibold');
+          btn.classList.add('text-on-surface-variant');
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ==========================================
+    // BACKEND API CONNECTIVITY & HEALTH
+    // ==========================================
+    async function checkBackendHealth() {
+      const dot = document.getElementById('backendPingDot');
+      const text = document.getElementById('backendStatusText');
+      const diagBackend = document.getElementById('diagBackend');
+      
+      try {
+        const res = await fetch(`${CONFIG.apiBase}/health`, { signal: AbortSignal.timeout(2000) });
+        if (res.ok) {
+          const data = await res.json();
+          CONFIG.isBackendAlive = true;
+          dot.className = "w-2 h-2 rounded-full bg-emerald-400";
+          text.innerText = "API: Connected";
+          if (diagBackend) diagBackend.innerText = "Online (Live Express Server)";
+          fetchLiveDashboardStats();
+          return;
+        }
+      } catch (err) {
+        // Fallback to standalone mode
+      }
+
+      CONFIG.isBackendAlive = false;
+      dot.className = "w-2 h-2 rounded-full bg-amber-400";
+      text.innerText = "Demo Sync (Local)";
+      if (diagBackend) diagBackend.innerText = "Standby (Using Seed Repository)";
+    }
+
+    async function fetchLiveDashboardStats() {
+      if (!CONFIG.isBackendAlive) return;
+      try {
+        const res = await fetch(`${CONFIG.apiBase}/dashboard`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.stats && data.stats.totals) {
+            document.getElementById('statTotal').innerText = data.stats.totals.total;
+            document.getElementById('statCompliant').innerText = data.stats.totals.compliant;
+            document.getElementById('statReview').innerText = data.stats.totals.reviewRequired;
+            document.getElementById('statNonCompliant').innerText = data.stats.totals.nonCompliant;
+            const rate = data.stats.totals.complianceRate || 0;
+            document.getElementById('complianceRateText').innerText = `${rate}%`;
+            document.getElementById('gaugePath').setAttribute('stroke-dasharray', `${rate}, 100`);
+          }
+        }
+      } catch (e) {
+        // Silent fallback
+      }
+    }
+
+    function toggleBackendSettingsModal() {
+      switchTab('inspector-profile');
+      showToast('Backend settings & health diagnostics shown below', 'info');
+    }
+
+    function saveAndTestApiConnection() {
+      const input = document.getElementById('apiEndpointInput');
+      if (input && input.value.trim()) {
+        CONFIG.apiBase = input.value.trim();
+        localStorage.setItem('labelcheck_api_base', CONFIG.apiBase);
+        showToast('Testing connection to ' + CONFIG.apiBase + '...', 'info');
+        checkBackendHealth().then(() => {
+          if (CONFIG.isBackendAlive) {
+            showToast('✓ Successfully connected to live backend!', 'success');
+          } else {
+            showToast('Backend not responding. Running in standalone mode.', 'warning');
+          }
+        });
+      }
+    }
+
+    // ==========================================
+    // RBAC & PERSONA SWITCHING
+    // ==========================================
+    function toggleUserDropdown() {
+      const menu = document.getElementById('userDropdown');
+      menu.classList.toggle('hidden');
+    }
+
+    function applyCurrentPersona() {
+      const user = USERS[CONFIG.activeRole] || USERS.INSPECTOR;
+      
+      document.getElementById('headerUserName').innerText = user.name;
+      document.getElementById('headerUserRole').innerText = user.role;
+      document.getElementById('dropdownUserName').innerText = user.name;
+      document.getElementById('dropdownUserRole').innerText = user.badge;
+      
+      const greeting = document.getElementById('dashboardGreeting');
+      if (greeting) greeting.innerText = `Good Morning, ${user.role === 'INSPECTOR' ? 'Inspector' : user.role === 'OFFICER' ? 'Officer' : 'Admin'} ${user.name.split(' ')[0]}`;
+
+      const badgeLine = document.getElementById('dashboardBadgeLine');
+      if (badgeLine) badgeLine.innerText = user.badge;
+
+      const profileName = document.getElementById('profileNameDisplay');
+      if (profileName) profileName.innerText = user.name;
+
+      const profileDesig = document.getElementById('profileDesignation');
+      if (profileDesig) profileDesig.innerText = user.badge;
+
+      const profileScope = document.getElementById('profileScopeDisplay');
+      if (profileScope) profileScope.innerText = user.scope;
+
+      // Update active styling on role cards
+      document.querySelectorAll('.role-card').forEach(card => {
+        card.classList.remove('border-secondary', 'bg-secondary/5');
+        card.classList.add('border-surface-container-high', 'bg-surface-container-low');
+      });
+      const cards = document.querySelectorAll('.role-card');
+      const idx = user.role === 'INSPECTOR' ? 0 : user.role === 'OFFICER' ? 1 : 2;
+      if (cards[idx]) {
+        cards[idx].classList.add('border-secondary', 'bg-secondary/5');
+        cards[idx].classList.remove('border-surface-container-high', 'bg-surface-container-low');
+      }
+    }
+
+    function switchRole(newRole) {
+      if (!USERS[newRole]) return;
+      CONFIG.activeRole = newRole;
+      localStorage.setItem('labelcheck_role', newRole);
+      applyCurrentPersona();
+      const menu = document.getElementById('userDropdown');
+      if (menu) menu.classList.add('hidden');
+      showToast(`Switched persona to ${USERS[newRole].name} (${newRole})`, 'success');
+      renderDashboard();
+    }
+
+    // ==========================================
+    // DASHBOARD RENDERING & FILTERING
+    // ==========================================
+    function refreshDashboardData() {
+      const icon = document.getElementById('refreshIcon');
+      if (icon) icon.classList.add('rotate-180');
+      checkBackendHealth().then(() => {
+        renderDashboard();
+        setTimeout(() => {
+          if (icon) icon.classList.remove('rotate-180');
+          showToast('Dashboard metrics refreshed.', 'success');
+        }, 500);
+      });
+    }
+
+    function renderDashboard() {
+      const container = document.getElementById('docketListContainer');
+      if (!container) return;
+
+      container.innerHTML = '';
+      INSPECTIONS.forEach(item => {
+        const prod = item.product || {};
+        const isFlagged = item.status === 'NON_COMPLIANT';
+        const isReview = item.status === 'REVIEW_REQUIRED';
+        const isClean = item.status === 'COMPLIANT';
+
+        const statusColor = isFlagged 
+          ? 'bg-error-container text-on-error-container' 
+          : isReview 
+            ? 'bg-amber-100 text-amber-800' 
+            : 'bg-emerald-100 text-emerald-800';
+
+        const statusLabel = isFlagged 
+          ? 'Non-Compliant' 
+          : isReview 
+            ? 'Review Required' 
+            : 'Compliant';
+
+        const card = document.createElement('div');
+        card.className = "inspection-item bg-surface-container-lowest rounded-xl p-3 shadow-xs border border-surface-container-high flex flex-col gap-2 hover:border-secondary transition cursor-pointer";
+        card.setAttribute('data-category', item.status);
+        card.setAttribute('data-search', `${item.inspectionCode} ${prod.productName || ''} ${prod.barcode || ''} ${prod.manufacturer || ''}`.toLowerCase());
+        card.onclick = () => openForensicModal(item);
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${statusColor}">
+                ${statusLabel}
+              </span>
+              <span class="text-xs font-mono font-bold text-outline">${item.inspectionCode}</span>
+            </div>
+            <span class="text-xs text-on-surface-variant font-medium">${new Date(item.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+          </div>
+          <div class="flex items-start justify-between gap-2">
+            <div class="flex flex-col min-w-0">
+              <h3 class="font-heading text-sm font-bold text-on-surface truncate">${prod.productName || 'Unregistered Commodity'}</h3>
+              <div class="flex items-center gap-1.5 text-xs text-on-surface-variant mt-0.5">
+                <span class="material-symbols-outlined text-[14px]">warehouse</span>
+                <span class="truncate">${prod.manufacturer || 'Local Processing Unit'}</span>
+                <span>•</span>
+                <span class="font-mono">${prod.barcode || item.barcodeScanned || ''}</span>
+              </div>
+            </div>
+            <div class="w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${isFlagged ? 'bg-error/10 text-error' : isReview ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'}">
+              <span class="material-symbols-outlined text-[16px]">
+                ${isFlagged ? 'report_problem' : isReview ? 'hourglass_top' : 'check'}
+              </span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-1 border-t border-surface-container-high text-xs">
+            <span class="text-[11px] text-on-surface-variant truncate max-w-[280px]">
+              ${prod.demoScenario || 'All statutory declarations cross-verified.'}
+            </span>
+            <span class="font-heading text-xs text-secondary font-bold shrink-0">Inspect Details →</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    let activeDocketFilter = 'all';
+    function setDocketFilter(filter) {
+      activeDocketFilter = filter;
+      document.querySelectorAll('#docketFilterPills .filter-pill').forEach(pill => {
+        if (pill.getAttribute('data-filter') === filter) {
+          pill.className = "filter-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-primary text-on-primary shrink-0 shadow-xs";
+        } else {
+          pill.className = "filter-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-container-high text-on-surface-variant shrink-0 hover:bg-surface-container-highest";
+        }
+      });
+      filterDocketItems();
+    }
+
+    function filterDocketItems() {
+      const q = (document.getElementById('docketSearchInput')?.value || '').toLowerCase().trim();
+      document.querySelectorAll('.inspection-item').forEach(item => {
+        const cat = item.getAttribute('data-category');
+        const text = item.getAttribute('data-search') || '';
+        const matchCat = (activeDocketFilter === 'all' || cat === activeDocketFilter);
+        const matchText = (!q || text.includes(q));
+        if (matchCat && matchText) {
+          item.classList.remove('hidden');
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+    }
+
+    // ==========================================
+    // SCAN & INTAKE WORKFLOW
+    // ==========================================
+    function selectDemoProduct(barcode) {
+      const field = document.getElementById('scanBarcodeField');
+      if (field) {
+        field.value = barcode;
+        lookupBarcode();
+      }
+    }
+
+    function lookupBarcode() {
+      const barcode = (document.getElementById('scanBarcodeField')?.value || '').trim();
+      const resContainer = document.getElementById('barcodeMatchResult');
+      if (!barcode || !resContainer) return;
+
+      const product = DEMO_PRODUCTS.find(p => p.barcode === barcode);
+      resContainer.classList.remove('hidden');
+
+      if (product) {
+        resContainer.className = "mt-3 p-3 rounded-lg border border-emerald-300 bg-emerald-50 text-emerald-950 flex flex-col gap-1.5";
+        resContainer.innerHTML = `
+          <div class="flex items-center gap-1.5 text-emerald-800 font-bold font-heading text-xs">
+            <span class="material-symbols-outlined text-[18px]">check_circle</span>
+            <span>Matched in Product Repository: ${product.productName}</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs pt-1">
+            <div><span class="text-emerald-700 text-[10px] uppercase font-bold block">Brand</span>${product.brand}</div>
+            <div><span class="text-emerald-700 text-[10px] uppercase font-bold block">Mandated MRP</span>₹${product.mrp}</div>
+            <div><span class="text-emerald-700 text-[10px] uppercase font-bold block">Net Quantity</span>${product.netQuantity} ${product.unit}</div>
+            <div><span class="text-emerald-700 text-[10px] uppercase font-bold block">Category</span>${product.productCategory}</div>
+          </div>
+          <p class="text-[11px] text-emerald-800 italic mt-1">${product.demoScenario}</p>
+        `;
+        showToast(`Repository record matched for barcode ${barcode}`, 'success');
+      } else {
+        resContainer.className = "mt-3 p-3 rounded-lg border border-amber-300 bg-amber-50 text-amber-950 flex flex-col gap-1";
+        resContainer.innerHTML = `
+          <div class="flex items-center gap-1.5 text-amber-800 font-bold font-heading text-xs">
+            <span class="material-symbols-outlined text-[18px]">info</span>
+            <span>Unregistered Barcode (${barcode})</span>
+          </div>
+          <p class="text-xs text-amber-800">No central repository match. Inspection will proceed as an image-first label audit.</p>
+        `;
+        showToast('Barcode not in repository — continuing image-based.', 'warning');
+      }
+    }
+
+    function handleImageSelect(event, slot) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const preview = document.getElementById(`previewSide${slot}`);
+        const placeholder = document.getElementById(`placeholderSide${slot}`);
+        if (preview && placeholder) {
+          preview.src = e.target.result;
+          preview.classList.remove('hidden');
+          placeholder.classList.add('hidden');
+        }
+        selectedFiles[slot] = e.target.result;
+        updateEvidenceCount();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function loadSampleEvidence() {
+      const sampleImg = DEMO_PRODUCTS[0].images[0];
+      for (let slot = 1; slot <= 3; slot++) {
+        const preview = document.getElementById(`previewSide${slot}`);
+        const placeholder = document.getElementById(`placeholderSide${slot}`);
+        if (preview && placeholder) {
+          preview.src = sampleImg;
+          preview.classList.remove('hidden');
+          placeholder.classList.add('hidden');
+        }
+        selectedFiles[slot] = sampleImg;
+      }
+      updateEvidenceCount();
+      showToast('Loaded 3 multi-side demo package photos.', 'success');
+    }
+
+    function updateEvidenceCount() {
+      const count = Object.values(selectedFiles).filter(Boolean).length;
+      const label = document.getElementById('evidenceCountText');
+      if (label) label.innerText = `${count} image(s) attached`;
+    }
+
+    function executeFullPipelineAnalysis() {
+      const barcode = (document.getElementById('scanBarcodeField')?.value || '').trim();
+      const product = DEMO_PRODUCTS.find(p => p.barcode === barcode) || DEMO_PRODUCTS[0];
+
+      const modal = document.getElementById('analysisProgressModal');
+      modal.classList.remove('hidden');
+
+      const steps = [
+        { id: 'step1', delay: 400 },
+        { id: 'step2', delay: 900 },
+        { id: 'step3', delay: 1400 },
+        { id: 'step4', delay: 1900 },
+        { id: 'step5', delay: 2400 }
+      ];
+
+      steps.forEach(s => {
+        setTimeout(() => {
+          const el = document.getElementById(s.id);
+          if (el) {
+            el.className = "step-item flex items-center gap-2 text-emerald-700 font-semibold";
+            el.querySelector('.material-symbols-outlined').innerText = "check_circle";
+          }
+        }, s.delay);
+      });
+
+      setTimeout(() => {
+        modal.classList.add('hidden');
+
+        // Create new inspection instance in ledger
+        const newCode = `INS-20260929-${String(INSPECTIONS.length + 1).padStart(4, '0')}`;
+        const newInsp = {
+          _id: `insp_${Date.now()}`,
+          inspectionCode: newCode,
+          product: product,
+          status: product.status,
+          barcodeScanned: product.barcode,
+          barcodeMatched: true,
+          createdAt: new Date().toISOString(),
+          inspectorName: USERS[CONFIG.activeRole]?.name || "Rajesh Sharma",
+          images: product.images,
+          findings: JSON.parse(JSON.stringify(product.findings))
+        };
+
+        INSPECTIONS.unshift(newInsp);
+        renderDashboard();
+        renderHistoryTable();
+        showToast(`AI Pipeline complete: ${newInsp.status}`, newInsp.status === 'COMPLIANT' ? 'success' : 'warning');
+        openForensicModal(newInsp);
+      }, 2900);
+    }
+
+    // ==========================================
+    // FORENSIC INSPECTION DETAIL MODAL
+    // ==========================================
+    function openForensicModalByBarcode(barcode) {
+      const insp = INSPECTIONS.find(i => i.barcodeScanned === barcode) || INSPECTIONS[0];
+      openForensicModal(insp);
+    }
+
+    function openForensicModal(inspection) {
+      currentActiveInspection = inspection;
+      const modal = document.getElementById('forensicDetailModal');
+      const prod = inspection.product || {};
+
+      document.getElementById('modalInspCode').innerText = inspection.inspectionCode;
+      document.getElementById('modalProductName').innerText = `${prod.productName || 'Package Commodity'} (${prod.brand || ''}) • Barcode: ${prod.barcode || inspection.barcodeScanned}`;
+
+      // Status Badge
+      const badge = document.getElementById('modalStatusBadge');
+      const isCompliant = inspection.status === 'COMPLIANT';
+      const isNonCompliant = inspection.status === 'NON_COMPLIANT';
+      badge.innerText = inspection.status.replace('_', ' ');
+      badge.className = `px-2.5 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider ${
+        isCompliant ? 'bg-emerald-100 text-emerald-800' : isNonCompliant ? 'bg-error-container text-on-error-container' : 'bg-amber-100 text-amber-800'
+      }`;
+
+      // Evidence Photos & Simulated Bounding Boxes
+      const photosContainer = document.getElementById('modalEvidencePhotos');
+      photosContainer.innerHTML = '';
+      const sampleImg = (inspection.images && inspection.images[0]) || DEMO_PRODUCTS[0].images[0];
+
+      for (let i = 0; i < 2; i++) {
+        const photoDiv = document.createElement('div');
+        photoDiv.className = "relative rounded-xl overflow-hidden border border-surface-container-high bg-slate-900 aspect-video";
+        photoDiv.innerHTML = `
+          <img src="${sampleImg}" class="w-full h-full object-cover" alt="Package Evidence"/>
+          <div class="ocr-bbox absolute border-2 border-emerald-400 bg-emerald-400/20 rounded top-4 left-6 w-36 h-10 flex items-center justify-center">
+            <span class="bg-emerald-800 text-white text-[9px] px-1 font-mono absolute -top-3 left-1">MRP: ₹${prod.mrp || 189}</span>
+          </div>
+          <div class="ocr-bbox absolute border-2 border-secondary bg-secondary/20 rounded bottom-6 right-6 w-44 h-12 flex items-center justify-center">
+            <span class="bg-secondary text-white text-[9px] px-1 font-mono absolute -top-3 left-1">NET QTY: ${prod.netQuantity || 1000} ${prod.unit || 'g'}</span>
+          </div>
+          <div class="absolute bottom-1.5 left-2 bg-primary/80 px-2 py-0.5 rounded text-[10px] text-white font-mono">
+            ${i === 0 ? 'Front Panel [OCR Conf: 98%]' : 'Back Declaration Panel [OCR Conf: 94%]'}
+          </div>
+        `;
+        photosContainer.appendChild(photoDiv);
+      }
+
+      // Declarations Table
+      renderModalDeclarationsTable(prod);
+
+      // Readability Assessment
+      renderModalReadability(prod);
+
+      // Findings & Human-in-the-Loop Actions
+      renderModalFindings(inspection);
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeForensicModal() {
+      document.getElementById('forensicDetailModal').classList.add('hidden');
+    }
+
+    function toggleBoundingBoxes() {
+      const show = document.getElementById('toggleBBoxesCheck').checked;
+      document.querySelectorAll('.ocr-bbox').forEach(el => {
+        el.style.display = show ? 'flex' : 'none';
+      });
+    }
+
+    function renderModalDeclarationsTable(prod) {
+      const tbody = document.getElementById('modalDeclarationsTableBody');
+      tbody.innerHTML = '';
+
+      const rows = [
+        { field: 'MRP (Maximum Retail Price)', detected: prod.barcode === '8901030123471' ? '₹ 109.00' : `₹ ${prod.mrp || '--'}`, repo: `₹ ${prod.mrp || '--'}`, ok: prod.barcode !== '8901030123471' && prod.barcode !== '8901030123495' },
+        { field: 'Net Quantity & Standard Unit', detected: prod.barcode === '8901030123495' ? `${prod.netQuantity} gm.` : `${prod.netQuantity || '--'} ${prod.unit || ''}`, repo: `${prod.netQuantity || '--'} ${prod.unit || ''}`, ok: prod.barcode !== '8901030123495' },
+        { field: 'Manufacturing / Packing Date', detected: prod.manufacturingDate || '2026-05-01', repo: prod.manufacturingDate || '2026-05-01', ok: true },
+        { field: 'Best Before / Expiry Date', detected: prod.bestBeforeOrExpiry || 'NOT DETECTED ON LABEL', repo: prod.bestBeforeOrExpiry || 'Unregistered', ok: Boolean(prod.bestBeforeOrExpiry) },
+        { field: 'Country of Origin', detected: prod.countryOfOrigin || 'India', repo: prod.countryOfOrigin || 'India', ok: true },
+        { field: 'Manufacturer / Packer Details', detected: prod.manufacturer || 'Verified on back', repo: prod.manufacturer || 'Verified', ok: true },
+        { field: 'Consumer Care Contact', detected: prod.consumerCare || 'NOT DETECTED ON LABEL', repo: prod.consumerCare || '1800-XXX-XXXX', ok: Boolean(prod.consumerCare) }
+      ];
+
+      rows.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-surface-container-low transition";
+        tr.innerHTML = `
+          <td class="p-2.5 font-semibold text-on-surface">${r.field}</td>
+          <td class="p-2.5 font-mono ${r.ok ? 'text-on-surface' : 'text-error font-bold'}">${r.detected}</td>
+          <td class="p-2.5 font-mono text-on-surface-variant">${r.repo}</td>
+          <td class="p-2.5 text-center">
+            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full ${r.ok ? 'bg-emerald-100 text-emerald-800' : 'bg-error-container text-on-error-container'}">
+              <span class="material-symbols-outlined text-[14px]">${r.ok ? 'check' : 'close'}</span>
+            </span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderModalReadability(prod) {
+      const container = document.getElementById('readabilityAssessmentContainer');
+      container.innerHTML = '';
+
+      const isLow = prod.barcode === '8901030123488';
+      document.getElementById('readabilityOverallBadge').className = `px-2 py-0.5 rounded text-[10px] font-bold uppercase ${isLow ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}`;
+      document.getElementById('readabilityOverallBadge').innerText = isLow ? 'WARNING' : 'PASS';
+
+      const items = [
+        { label: 'Relative Character Height', val: isLow ? '0.009 (Below 0.012 limit)' : '0.018 (Compliant)', ok: !isLow },
+        { label: 'OCR Optical Confidence', val: isLow ? '72% (Marginal font contrast)' : '97% (High clarity)', ok: !isLow },
+        { label: 'Minimum Display Area', val: 'Compliant with PCR Schedule 2', ok: true }
+      ];
+
+      items.forEach(it => {
+        const div = document.createElement('div');
+        div.className = `p-2 rounded-lg border ${it.ok ? 'border-surface-container-high bg-surface-container-low' : 'border-amber-300 bg-amber-50'}`;
+        div.innerHTML = `
+          <span class="text-[10px] text-outline uppercase font-bold block">${it.label}</span>
+          <span class="text-xs font-semibold ${it.ok ? 'text-on-surface' : 'text-amber-800'}">${it.val}</span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function renderModalFindings(inspection) {
+      const list = document.getElementById('modalFindingsList');
+      const badge = document.getElementById('modalFindingsCountBadge');
+      list.innerHTML = '';
+
+      const findings = inspection.findings || [];
+      badge.innerText = `${findings.length} Finding(s)`;
+
+      if (findings.length === 0) {
+        list.innerHTML = `
+          <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs flex items-center gap-2">
+            <span class="material-symbols-outlined text-emerald-600 text-[20px]">verified</span>
+            <span>All statutory declarations are fully compliant with Legal Metrology (Packaged Commodities) Rules, 2011.</span>
+          </div>
+        `;
+        return;
+      }
+
+      findings.forEach((f, idx) => {
+        const isNon = f.outcome === 'NON_COMPLIANT';
+        const card = document.createElement('div');
+        card.className = "bg-surface-container-low rounded-xl p-3.5 border border-surface-container-high flex flex-col gap-2.5";
+        
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase font-heading ${isNon ? 'bg-error-container text-on-error-container' : 'bg-amber-100 text-amber-800'}">
+                ${f.outcome}
+              </span>
+              <span class="text-xs font-bold text-on-surface font-heading">${f.ruleCode}: ${f.ruleName}</span>
+            </div>
+            <span class="text-[11px] font-semibold ${f.reviewStatus === 'CONFIRMED' ? 'text-error' : f.reviewStatus === 'REJECTED' ? 'text-emerald-700 line-through' : 'text-amber-700'}">
+              ${f.reviewStatus === 'CONFIRMED' ? '✓ Confirmed' : f.reviewStatus === 'REJECTED' ? '✕ Dismissed' : '⏳ Pending'}
+            </span>
+          </div>
+
+          <p class="text-xs text-on-surface">${f.message}</p>
+
+          <!-- Audit Evidence Block -->
+          <div class="p-2.5 rounded-lg bg-surface-container-lowest border border-surface-container-high text-xs grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-on-surface-variant">
+            <div><span class="text-outline font-medium">Location:</span> ${f.evidence.location || 'Package Label'}</div>
+            <div><span class="text-outline font-medium">Detected:</span> <span class="text-on-surface font-mono font-bold">${f.evidence.extractedValue || '--'}</span></div>
+            <div><span class="text-outline font-medium">Expected:</span> <span class="text-on-surface font-mono font-bold">${f.evidence.expectedValue || '--'}</span></div>
+            <div class="sm:col-span-2"><span class="text-outline font-medium">OCR Snippet:</span> <span class="font-mono text-on-surface">"${f.evidence.ocrText || ''}"</span></div>
+          </div>
+
+          ${f.reviewComment ? `<p class="text-xs italic text-on-surface-variant bg-surface-container p-2 rounded">Reviewer Rationale: "${f.reviewComment}"</p>` : ''}
+
+          <!-- Human-In-The-Loop Action Bar -->
+          <div class="pt-2 border-t border-surface-container-high flex flex-wrap items-center justify-between gap-2">
+            <span class="text-[11px] text-on-surface-variant font-medium">Enforcement Adjudication:</span>
+            <div class="flex items-center gap-1.5">
+              <button onclick="adjudicateFinding(${idx}, 'CONFIRMED')" class="px-2.5 py-1 text-xs font-bold rounded border border-error text-error hover:bg-error/10 transition">
+                Confirm Violation
+              </button>
+              <button onclick="adjudicateFinding(${idx}, 'REJECTED')" class="px-2.5 py-1 text-xs font-bold rounded border border-emerald-600 text-emerald-700 hover:bg-emerald-50 transition" title="Dismiss as false positive">
+                Dismiss (False Positive)
+              </button>
+              <button onclick="adjudicateFinding(${idx}, 'MARKED_FOR_REVIEW')" class="px-2.5 py-1 text-xs font-bold rounded border border-amber-600 text-amber-700 hover:bg-amber-50 transition">
+                Mark for Supervisor
+              </button>
+            </div>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    function adjudicateFinding(idx, action) {
+      if (!currentActiveInspection || !currentActiveInspection.findings[idx]) return;
+      const f = currentActiveInspection.findings[idx];
+      f.reviewStatus = action;
+      f.reviewedBy = USERS[CONFIG.activeRole]?.name;
+      f.reviewedAt = new Date().toISOString();
+
+      // Recalculate inspection verdict based on human action
+      const remainingViolations = currentActiveInspection.findings.filter(item => item.outcome === 'NON_COMPLIANT' && item.reviewStatus !== 'REJECTED');
+      const remainingReviews = currentActiveInspection.findings.filter(item => item.reviewStatus === 'MARKED_FOR_REVIEW' || (item.reviewStatus === 'PENDING' && item.outcome === 'REVIEW_REQUIRED'));
+
+      if (remainingViolations.length > 0) {
+        currentActiveInspection.status = 'NON_COMPLIANT';
+      } else if (remainingReviews.length > 0) {
+        currentActiveInspection.status = 'REVIEW_REQUIRED';
+      } else {
+        currentActiveInspection.status = 'COMPLIANT';
+      }
+
+      renderModalFindings(currentActiveInspection);
+      document.getElementById('modalStatusBadge').innerText = currentActiveInspection.status.replace('_', ' ');
+      document.getElementById('modalStatusBadge').className = `px-2.5 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider ${
+        currentActiveInspection.status === 'COMPLIANT' ? 'bg-emerald-100 text-emerald-800' : currentActiveInspection.status === 'NON_COMPLIANT' ? 'bg-error-container text-on-error-container' : 'bg-amber-100 text-amber-800'
+      }`;
+
+      renderDashboard();
+      renderHistoryTable();
+      showToast(`Finding marked as ${action}. Overall verdict updated to ${currentActiveInspection.status}.`, 'success');
+    }
+
+    // ==========================================
+    // PDF REPORT CERTIFICATE GENERATOR
+    // ==========================================
+    function downloadOfficialReportPdf() {
+      const insp = currentActiveInspection;
+      if (!insp) return;
+
+      const reportHtml = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Legal Metrology Inspection Report - ${insp.inspectionCode}</title>
+          <style>
+            body { font-family: 'Helvetica Neue', Arial, sans-serif; padding: 30px; color: #0f172a; line-height: 1.5; }
+            .header { border-bottom: 2px solid #123b5d; padding-bottom: 12px; margin-bottom: 20px; }
+            .badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 12px; }
+            .badge-clean { background: #dcfce7; color: #15803d; }
+            .badge-flagged { background: #fee2e2; color: #b91c1c; }
+            table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; }
+            th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
+            th { background: #f1f5f9; }
+            .footer { margin-top: 40px; border-top: 1px solid #cbd5e1; padding-top: 15px; font-size: 11px; color: #64748b; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h2>GOVERNMENT OF INDIA • LEGAL METROLOGY DIVISION</h2>
+            <p><strong>Certificate of Packaging Compliance & Labeling Inspection</strong></p>
+            <p>Inspection Reference: <strong>${insp.inspectionCode}</strong> | Date: ${new Date(insp.createdAt).toLocaleString()}</p>
+          </div>
+          <div>
+            <p><strong>Commodity:</strong> ${insp.product?.productName || 'Packaged Commodity'}</p>
+            <p><strong>Barcode:</strong> ${insp.barcodeScanned || '--'} | <strong>Category:</strong> ${insp.product?.productCategory || '--'}</p>
+            <p><strong>Manufacturer:</strong> ${insp.product?.manufacturer || '--'}</p>
+            <p><strong>Inspector:</strong> ${insp.inspectorName} (${USERS[CONFIG.activeRole]?.badge})</p>
+            <p><strong>Overall Status:</strong> <span class="badge ${insp.status === 'COMPLIANT' ? 'badge-clean' : 'badge-flagged'}">${insp.status}</span></p>
+          </div>
+          <h3>Compliance Findings & Evidence Summary</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Rule Code</th>
+                <th>Validation Type</th>
+                <th>Finding Description</th>
+                <th>Adjudication</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${(insp.findings && insp.findings.length > 0) ? insp.findings.map(f => `
+                <tr>
+                  <td><strong>${f.ruleCode}</strong></td>
+                  <td>${f.validationType}</td>
+                  <td>${f.message} (Detected: ${f.evidence?.extractedValue || 'N/A'})</td>
+                  <td><strong>${f.reviewStatus || 'PENDING'}</strong></td>
+                </tr>
+              `).join('') : '<tr><td colspan="4" style="text-align:center; color:#15803d;">All Legal Metrology rules passed with zero violations.</td></tr>'}
+            </tbody>
+          </table>
+          <div class="footer">
+            <p>Generated by FoodTrace AI Digital Inspector Portal • Compliant with Legal Metrology (Packaged Commodities) Rules, 2011.</p>
+            <p>Digitally Signed & Timestamped under National Enforcement Infrastructure.</p>
+          </div>
+        </body>
+        </html>
+      `;
+
+      const blob = new Blob([reportHtml], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `LegalMetrology-Report-${insp.inspectionCode}.html`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast(`Downloaded Official Report ${insp.inspectionCode}`, 'success');
+    }
+
+    // ==========================================
+    // PRODUCT REPOSITORY CATALOG
+    // ==========================================
+    function renderProductCatalog() {
+      const container = document.getElementById('productCatalogList');
+      if (!container) return;
+
+      container.innerHTML = '';
+      DEMO_PRODUCTS.forEach(p => {
+        const div = document.createElement('div');
+        div.className = "prod-catalog-item p-3 rounded-xl border border-surface-container-high bg-surface-container-low hover:border-secondary transition flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3";
+        div.setAttribute('data-search', `${p.productName} ${p.brand} ${p.manufacturer} ${p.productCategory} ${p.barcode}`.toLowerCase());
+
+        div.innerHTML = `
+          <div class="flex items-start gap-2.5 min-w-0">
+            <div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary flex items-center justify-center shrink-0 font-bold text-xs font-mono">
+              ${p.unit.toUpperCase()}
+            </div>
+            <div class="flex flex-col min-w-0">
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs font-bold text-on-surface font-heading truncate">${p.productName}</span>
+                <span class="px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant text-[10px] font-bold font-mono">${p.productCategory}</span>
+              </div>
+              <p class="text-xs text-on-surface-variant mt-0.5 truncate">${p.manufacturer} • Barcode: <span class="font-mono font-bold">${p.barcode}</span></p>
+              <div class="flex items-center gap-3 text-xs text-on-surface mt-1">
+                <span>Standard MRP: <strong>₹${p.mrp}</strong></span>
+                <span>Net Qty: <strong>${p.netQuantity} ${p.unit}</strong></span>
+                <span>Origin: <strong>${p.countryOfOrigin}</strong></span>
+              </div>
+            </div>
+          </div>
+          <button onclick="selectDemoProduct('${p.barcode}'); switchTab('scan-inspection');" 
+                  class="px-3 h-8 bg-secondary text-on-secondary rounded font-heading text-xs font-bold hover:bg-secondary/90 shrink-0 transition flex items-center gap-1">
+            <span class="material-symbols-outlined text-[16px]">qr_code_scanner</span>
+            <span>Audit Item</span>
+          </button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function filterProductCatalog() {
+      const q = (document.getElementById('productSearchInput')?.value || '').toLowerCase().trim();
+      document.querySelectorAll('.prod-catalog-item').forEach(el => {
+        const text = el.getAttribute('data-search') || '';
+        el.classList.toggle('hidden', Boolean(q && !text.includes(q)));
+      });
+    }
+
+    // ==========================================
+    // HISTORY AUDIT TABLE
+    // ==========================================
+    function renderHistoryTable() {
+      const container = document.getElementById('historyTableContainer');
+      if (!container) return;
+
+      container.innerHTML = `
+        <table class="w-full text-left text-xs">
+          <thead class="bg-surface-container text-outline uppercase font-heading text-[10px]">
+            <tr>
+              <th class="p-2.5">Inspection ID</th>
+              <th class="p-2.5">Commodity & Barcode</th>
+              <th class="p-2.5">Inspector</th>
+              <th class="p-2.5">Timestamp</th>
+              <th class="p-2.5">Compliance Verdict</th>
+              <th class="p-2.5 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-surface-container-high">
+            ${INSPECTIONS.map(item => `
+              <tr class="hover:bg-surface-container-low transition cursor-pointer" onclick="openForensicModalByBarcode('${item.barcodeScanned}')">
+                <td class="p-2.5 font-mono font-bold text-secondary">${item.inspectionCode}</td>
+                <td class="p-2.5">
+                  <div class="font-bold text-on-surface">${item.product?.productName || 'Packaged Commodity'}</div>
+                  <div class="font-mono text-outline text-[11px]">${item.barcodeScanned}</div>
+                </td>
+                <td class="p-2.5 text-on-surface-variant font-medium">${item.inspectorName}</td>
+                <td class="p-2.5 text-on-surface-variant">${new Date(item.createdAt).toLocaleDateString()} ${new Date(item.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                <td class="p-2.5">
+                  <span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider ${
+                    item.status === 'COMPLIANT' ? 'bg-emerald-100 text-emerald-800' : item.status === 'NON_COMPLIANT' ? 'bg-error-container text-on-error-container' : 'bg-amber-100 text-amber-800'
+                  }">
+                    ${item.status.replace('_', ' ')}
+                  </span>
+                </td>
+                <td class="p-2.5 text-right">
+                  <span class="text-secondary font-bold hover:underline">View Dossier →</span>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function exportHistoryCsv() {
+      let csv = "InspectionCode,ProductName,Barcode,Status,Inspector,Timestamp\n";
+      INSPECTIONS.forEach(i => {
+        csv += `"${i.inspectionCode}","${i.product?.productName || ''}","${i.barcodeScanned}","${i.status}","${i.inspectorName}","${i.createdAt}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `LegalMetrology-Audit-Ledger-${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Exported audit history ledger to CSV.', 'success');
+    }
+  </script>
+</body>
+</html>
