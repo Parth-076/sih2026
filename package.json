@@ -1,24 +1,31 @@
 {
-  "name": "labelcheck",
-  "version": "0.1.0",
+  "name": "label-check-legal-metrology",
   "private": true,
-  "description": "LabelCheck - AI-Assisted Legal Metrology Digital Inspector (SIH26-26034, Team Innovexa)",
-  "workspaces": [
-    "frontend",
-    "backend"
-  ],
+  "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "concurrently -n FRONTEND,BACKEND -c blue,green \"npm run dev --workspace=frontend\" \"npm run dev --workspace=backend\"",
-    "dev:frontend": "npm run dev --workspace=frontend",
-    "dev:backend": "npm run dev --workspace=backend",
-    "install:all": "npm install",
-    "build": "npm run build --workspace=frontend && npm run build --workspace=backend",
-    "seed": "npm run seed --workspace=backend"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2",
+    "jspdf-autotable": "^5.0.8",
+    "lucide-react": "^0.475.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.6.0",
+    "tesseract.js": "^5.1.1"
   },
   "devDependencies": {
-    "concurrently": "^9.1.0"
-  },
-  "engines": {
-    "node": ">=18.0.0"
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "vite": "^6.1.0"
   }
 }
